@@ -1,49 +1,39 @@
-import { GetServerSideProps } from 'next'
-import Link from 'next/link'
-import { fetchAllProducts, Product } from '@/lib/productServerApi'
-import { Category, fetchCategories } from '@/lib/categoriesServerApi'
+import DownloadAds from "@/components/ads/download-ads";
+import CategoriesSection from "@/components/sections/CategoriesSection";
+import FlashSale from "@/components/sections/FlashSale";
+import HeroSection from "@/components/sections/HeroSection";
+import PopularBrands from "@/components/sections/popularBrands";
+import SmallDeviceCategory from "@/components/sections/small-device-category";
+import { IMAGE } from "@/constant/image.index";
+import Image from "next/image";
 
-
-interface HomeProps {
-  featuredProducts: Product[]
-  categories: Category[]
-}
-
-export default function Home({ categories }: HomeProps) {
+function index() {
   return (
-    <div className='container mx-auto! px-4 py-8'>
+    <div className="flex flex-col gap-12">
+      <HeroSection />
+      <FlashSale />
+      <div className="sm:block hidden container mx-auto px-2">
+        <CategoriesSection />
+      </div>
+      <div className="sm:hidden">
+        <SmallDeviceCategory />
+      </div>
+      <PopularBrands />
+      <div className="flex gap-2 ">
+        <div className="w-40 h-40 md:hidden aspect-square flex items-center justify-center">
+          <Image
+            src={IMAGE.banner}
+            alt="banner"
+            width={300}
+            height={300}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-      <div className="flex flex-nowrap gap-2 overflow-x-auto">
-        {categories.slice(0, 8).map(category => (
-          <Link
-            key={category.slug}
-            href={`/category/${category.slug}`}
-            style={{ textDecoration: 'none' }}
-          >
-            <div className="cursor-pointer shadow-sm rounded-full pr-2! flex flex-nowrap items-center justify-start gap-2 border border-gray-300 hide-scrollbar">
-              <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
-              <span className="text-sm font-semibold text-gray-700">
-                {category.name}
-              </span>
-            </div>
-          </Link>
-        ))}
+        <DownloadAds />
       </div>
     </div>
-  )
+  );
 }
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  // Fetch both products and categories in parallel
-  const [productsData, categories] = await Promise.all([
-    fetchAllProducts({ limit: 30 }),
-    fetchCategories()
-  ])
-
-  return {
-    props: {
-      featuredProducts: productsData.products,
-      categories
-    }
-  }
-}
+export default index;

@@ -1,6 +1,8 @@
 "use client";
+import { ChevronRight } from "lucide-react";
 // import { ArrowLeft, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useCallback, useEffect } from "react";
 
@@ -248,7 +250,7 @@ function CategoriesSection() {
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     updateScrollButtons();
     const el = scrollRef.current;
     if (!el) return;
@@ -297,8 +299,9 @@ function CategoriesSection() {
   };
 
   return (
-    <section className="w-full px-4 bg-white select-none overflow-hidden py-6 md:py-8">
-      <div className="flex items-center justify-between px-4 sm:px-6 md:px-8 mb-4">
+    <section className="w-full bg-white select-none overflow-hidden py-6 md:py-8">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="font-semibold text-md md:text-lg">Shop by Categories</h1>
         <div className="md:flex items-center gap-2 hidden">
           <button
             onClick={() => scroll("left")}
@@ -316,12 +319,19 @@ function CategoriesSection() {
           >
             →
           </button>
+          <Link
+            href="/categories"
+            className="text-primary hover:underline text-sm flex items-center font-medium"
+          >
+            View All
+            <ChevronRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
 
       <div
         ref={scrollRef}
-        className={`flex gap-4 sm:gap-5 md:gap-6 px-4 sm:px-6 md:px-8 overflow-x-auto pb-2 snap-x snap-mandatory ${
+        className={`flex gap-4 sm:gap-5 md:gap-6 px-4  p-2 sm:px-6 md:px-8 overflow-x-auto pb-2 snap-x snap-mandatory ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         }`}
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}

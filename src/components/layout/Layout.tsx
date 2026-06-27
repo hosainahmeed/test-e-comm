@@ -27,7 +27,7 @@ export default function Layout({
         }}
       >
         <Header />
-        <main style={{ flex: 1, paddingTop: "75px" }}>{children}</main>
+        <main className="pt-[70px] md:pt-[20px]">{children}</main>
         {/* <Footer /> */}
       </div>
     </>
