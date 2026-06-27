@@ -1,126 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Star, TrendingUp, Shield, Award } from "lucide-react";
-
-// Popular brands data
-const popularBrands = [
-  {
-    id: 1,
-    name: "Al Fakher",
-    slug: "al-fakher",
-    logo: "https://smokkkin.in/wp-content/uploads/2018/04/Al-Fakher-Logo.png",
-    description: "World's leading shisha tobacco manufacturer",
-    productCount: 145,
-    rating: 4.8,
-    featured: true,
-    trending: true,
-    verified: true,
-    categories: ["Shisha Tobacco", "Accessories"],
-    country: "UAE",
-    established: 1999,
-    bestSeller: "Double Apple Flavor",
-    discount: 15,
-    image: "https://smokkkin.in/wp-content/uploads/2018/04/Al-Fakher-Logo.png",
-  },
-  {
-    id: 2,
-    name: "Starbuzz",
-    slug: "starbuzz",
-    logo: "https://www.shishagoods.co.uk/wp-content/uploads/2023/02/image-17-687x400.png",
-    description: "Premium American hookah tobacco brand",
-    productCount: 98,
-    rating: 4.7,
-    featured: true,
-    trending: false,
-    verified: true,
-    categories: ["Shisha Tobacco", "Hookah Pipes"],
-    country: "USA",
-    established: 2005,
-    bestSeller: "Blue Mist",
-    discount: 10,
-    image:
-      "https://d111ai8eht49ae.cloudfront.net/logo_image_67bd1e130d7dab834e94e94f8ecbd415.png",
-  },
-  {
-    id: 3,
-    name: "KM Hookah",
-    slug: "km-hookah",
-    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEGiIaZE2IG9xUeM6tVO3AiEGqdy16xHG6j4Lh_9n-xbUR9LaD8E5tq6vZ&s=10",
-    description: "Traditional Egyptian hookah craftsmanship",
-    productCount: 67,
-    rating: 4.9,
-    featured: true,
-    trending: true,
-    verified: true,
-    categories: ["Hookah Pipes", "Accessories"],
-    country: "Egypt",
-    established: 1980,
-    bestSeller: "KM Classic",
-    discount: 20,
-    image:
-      "https://khalilmamoon.com/cdn/shop/t/10/assets/logo.png?v=60991916144139236371583882917",
-  },
-  {
-    id: 4,
-    name: "Coco Nara",
-    slug: "coco-nara",
-    logo: "/uploads/brands/coco-nara-logo.png",
-    description: "Natural coconut charcoal specialists",
-    productCount: 34,
-    rating: 4.6,
-    featured: false,
-    trending: true,
-    verified: true,
-    categories: ["Charcoal", "Accessories"],
-    country: "Indonesia",
-    established: 2010,
-    bestSeller: "Flat Charcoal 72pc",
-    discount: 0,
-    image:
-      "https://thesmokefather.com/cdn/shop/products/CocoNaraCoals60Pieces5_800x.png?v=1608885931",
-  },
-  {
-    id: 5,
-    name: "Amy Deluxe",
-    slug: "amy-deluxe",
-    logo: "/uploads/brands/amy-deluxe-logo.png",
-    description: "German engineering meets hookah design",
-    productCount: 89,
-    rating: 4.7,
-    featured: true,
-    trending: false,
-    verified: true,
-    categories: ["Hookah Pipes", "Glass Hookahs"],
-    country: "Germany",
-    established: 2008,
-    bestSeller: "Amy Deluxe SS09",
-    discount: 25,
-    image:
-      "https://fair-smoke.com/cdn/shop/collections/Design_ohne_Titel_58.png?v=1733770155",
-  },
-  {
-    id: 6,
-    name: "Fumari",
-    slug: "fumari",
-    logo: "/uploads/brands/fumari-logo.png",
-    description: "Premium flavored shisha from California",
-    productCount: 56,
-    rating: 4.5,
-    featured: false,
-    trending: false,
-    verified: true,
-    categories: ["Shisha Tobacco"],
-    country: "USA",
-    established: 1997,
-    bestSeller: "White Gummi Bear",
-    discount: 5,
-    image:
-      "https://files.elfsight.com/storage/eafe4a4d-3436-495d-b748-5bdce62d911d/6ce432d8-9857-4758-89f2-e011468183d6/Master-Logo-Color-age.png",
-  },
-];
+import { ChevronRight, Star, TrendingUp, Shield } from "lucide-react";
+import { BRAND_CATALOG } from "@/lib/brandCatalog";
 
 function PopularBrands() {
   return (
@@ -146,7 +29,7 @@ function PopularBrands() {
 
         {/* Brand Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-          {popularBrands.map((brand) => (
+          {BRAND_CATALOG.map((brand) => (
             <Link
               key={brand.id}
               href={`/brands/${brand.slug}`}

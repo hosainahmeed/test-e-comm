@@ -1,4 +1,10 @@
 // Types based on DummyJSON API response
+import {
+  getCatalogCategory,
+  getCatalogSubcategory,
+} from "./productCatalog";
+import { getBrandBySlug } from "./brandCatalog";
+
 export interface Product {
   id: number;
   title: string;
@@ -60,8 +66,6 @@ export interface ProductFilters {
 }
 
 const API_BASE_URL = "https://dummyjson.com";
-
-// Fetch all products with filters
 export async function fetchAllProducts(
   filters?: ProductFilters,
 ): Promise<ProductsResponse> {
@@ -173,4 +177,127 @@ export async function searchProducts(query: string): Promise<ProductsResponse> {
     console.error("Error searching products:", error);
     return { products: [], total: 0, skip: 0, limit: 0 };
   }
+}
+
+function matchesKeywords(product: Product, keywords: string[]): boolean {
+  const haystack = [
+    product.title,
+    product.description,
+    product.category,
+    product.brand,
+    ...product.tags,
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return keywords.some((keyword) =>
+    haystack.includes(keyword.toLowerCase()),
+  );
+}
+
+function dedupeProducts(products: Product[]): Product[] {
+  return Array.from(new Map(products.map((product) => [product.id, product])).values());
+}
+
+export interface CatalogProductsResult {
+  products: Product[];
+  total: number;
+}
+
+export async function fetchProductsByCatalogRoute(
+  categorySlug: string,
+  subcategorySlug?: string,
+): Promise<CatalogProductsResult | null> {
+  const category = getCatalogCategory(categorySlug);
+  if (!category) return null;
+
+  const subcategory = subcategorySlug
+    ? getCatalogSubcategory(categorySlug, subcategorySlug)
+    : undefined;
+
+  if (subcategorySlug && !subcategory) return null;
+
+  const searchTerms = subcategory?.searchTerms?.length
+    ? subcategory.searchTerms
+    : category.searchTerms;
+
+  const filterKeywords = subcategory?.keywords?.length
+    ? [...category.keywords, ...subcategory.keywords]
+    : category.keywords;
+
+  const collected: Product[] = [];
+
+  for (const term of searchTerms) {
+    const result = await searchProducts(term);
+    collected.push(...result.products);
+  }
+
+  for (const fallbackCategory of category.fallbackCategories) {
+    const result = await fetchProductsByCategory(fallbackCategory);
+    collected.push(...result.products);
+  }
+
+  let products = dedupeProducts(collected).filter((product) =>
+    matchesKeywords(product, filterKeywords),
+  );
+
+  if (products.length === 0) {
+    products = dedupeProducts(collected).slice(0, 24);
+  }
+
+  return {
+    products,
+    total: products.length,
+  };
+}
+
+function matchesBrand(product: Product, terms: string[]): boolean {
+  const haystack = [
+    product.brand,
+    product.title,
+    product.description,
+    ...product.tags,
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  return terms.some((term) => haystack.includes(term.toLowerCase()));
+}
+
+export interface BrandProductsResult {
+  products: Product[];
+  total: number;
+}
+
+export async function fetchProductsByBrandSlug(
+  brandSlug: string,
+): Promise<BrandProductsResult | null> {
+  const brand = getBrandBySlug(brandSlug);
+
+  if (!brand) return null;
+
+  const searchTerms = [brand.name, ...brand.searchTerms];
+  const filterTerms = [brand.name, ...brand.keywords, ...brand.searchTerms];
+  const collected: Product[] = [];
+
+  for (const term of searchTerms) {
+    const result = await searchProducts(term);
+    collected.push(...result.products);
+  }
+
+  const allProducts = await fetchAllProducts({ limit: 200 });
+  collected.push(...allProducts.products);
+
+  let products = dedupeProducts(collected).filter((product) =>
+    matchesBrand(product, filterTerms),
+  );
+
+  if (products.length === 0) {
+    products = dedupeProducts(collected).slice(0, 24);
+  }
+
+  return {
+    products,
+    total: products.length,
+  };
 }

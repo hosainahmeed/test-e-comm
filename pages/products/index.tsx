@@ -1,9 +1,8 @@
-﻿import { GetServerSideProps } from "next";
+import { GetServerSideProps } from "next";
 import { ProductDataProvider } from "@/contexts/product-data-context";
 import ProductList from "@/components/products/ProductList";
 import { fetchAllProducts, ProductsResponse } from "@/lib/productServerApi";
 import ProductTopFilter from "@/components/products/ProductTopFilter";
-// import ProductTopFilter from '@/components/products/ProductTopFilter'
 
 interface ProductsPageProps {
   initialData: ProductsResponse;
@@ -23,7 +22,6 @@ export default function ProductsPage({ initialData }: ProductsPageProps) {
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
   context,
 ) => {
-  // Get query params from URL for filtering
   const { search, category, sortBy, limit } = context.query;
 
   const data = await fetchAllProducts({
@@ -33,13 +31,9 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
     limit: limit ? Number(limit) : 30,
   });
 
-  // Get unique categories from all products
-  const categories = [...new Set(data.products.map((p) => p.category))];
-
   return {
     props: {
       initialData: data,
-      categories,
     },
   };
 };

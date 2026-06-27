@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { getHeaderCategories } from "@/lib/productCatalog";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -39,82 +40,7 @@ interface SearchSuggestion {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const CATEGORIES: Category[] = [
-  {
-    label: "Hookahs",
-    href: "/products/hookahs",
-    icon: "🪈",
-    subcategories: [
-      {
-        label: "Complete Sets",
-        href: "/products/hookahs/complete-sets",
-        badge: "Popular",
-      },
-      { label: "Single Hose", href: "/products/hookahs/single-hose" },
-      { label: "Multi Hose", href: "/products/hookahs/multi-hose" },
-      { label: "Mini & Travel", href: "/products/hookahs/mini-travel" },
-      { label: "Premium & Luxury", href: "/products/hookahs/premium" },
-      { label: "Traditional", href: "/products/hookahs/traditional" },
-    ],
-  },
-  {
-    label: "Shisha",
-    href: "/products/shisha",
-    icon: "🍃",
-    subcategories: [
-      {
-        label: "Fruity Flavors",
-        href: "/products/shisha/fruity",
-        badge: "New",
-      },
-      { label: "Mint & Menthol", href: "/products/shisha/mint" },
-      { label: "Floral & Exotic", href: "/products/shisha/floral" },
-      { label: "Double Apple", href: "/products/shisha/double-apple" },
-      { label: "Brand: Al Fakher", href: "/products/shisha/al-fakher" },
-      { label: "Brand: Starbuzz", href: "/products/shisha/starbuzz" },
-    ],
-  },
-  {
-    label: "Accessories",
-    href: "/products/accessories",
-    icon: "🔧",
-    subcategories: [
-      { label: "Bowls", href: "/products/accessories/bowls" },
-      { label: "Hoses", href: "/products/accessories/hoses" },
-      { label: "Mouthpieces", href: "/products/accessories/mouthpieces" },
-      {
-        label: "Heat Management",
-        href: "/products/accessories/heat-management",
-        badge: "Hot",
-      },
-      { label: "Charcoal", href: "/products/accessories/charcoal" },
-      { label: "Cleaning Supplies", href: "/products/accessories/cleaning" },
-    ],
-  },
-  {
-    label: "Parts",
-    href: "/products/parts",
-    icon: "⚙️",
-    subcategories: [
-      { label: "Stems & Shafts", href: "/products/parts/stems" },
-      { label: "Bases & Vases", href: "/products/parts/bases" },
-      { label: "Grommets & Seals", href: "/products/parts/grommets" },
-      { label: "Valves & Purge", href: "/products/parts/valves" },
-      { label: "Tray & Top", href: "/products/parts/tray-top" },
-    ],
-  },
-  {
-    label: "Gifts & More",
-    href: "/products/gifts",
-    icon: "🎁",
-    subcategories: [
-      { label: "Gift Cards", href: "/products/gifts/gift-cards", badge: "New" },
-      { label: "Gift Sets", href: "/products/gifts/gift-sets" },
-      { label: "Branded Merch", href: "/products/gifts/merch" },
-      { label: "Starter Kits", href: "/products/gifts/starter-kits" },
-    ],
-  },
-];
+const CATEGORIES = getHeaderCategories();
 
 const SEARCH_SUGGESTIONS: SearchSuggestion[] = [
   {

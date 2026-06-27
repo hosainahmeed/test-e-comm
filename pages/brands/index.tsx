@@ -1,8 +1,5 @@
 import PopularBrands from "@/components/sections/popularBrands";
-import React from "react";
 
-function Brands() {
+export default function BrandsPage() {
   return <PopularBrands />;
 }
-
-export default Brands;
