@@ -54,11 +54,11 @@ export default function BrandProductsPage({
         className="mb-5 flex flex-wrap items-center gap-1 text-sm text-gray-500"
         aria-label="Breadcrumb"
       >
-        <Link href="/" className="text-[#C8A96E] hover:underline">
+        <Link href="/" className="text-[#a937e2] hover:underline">
           Home
         </Link>
         <span>/</span>
-        <Link href="/brands" className="text-[#C8A96E] hover:underline">
+        <Link href="/brands" className="text-[#a937e2] hover:underline">
           Brands
         </Link>
         <span>/</span>
@@ -108,7 +108,7 @@ export default function BrandProductsPage({
             </div>
 
             {brand.bestSeller && (
-              <p className="mt-2 inline-flex items-center gap-1 text-sm text-[#C8A96E]">
+              <p className="mt-2 inline-flex items-center gap-1 text-sm text-[#a937e2]">
                 <Award className="h-4 w-4" />
                 Best seller: {brand.bestSeller}
               </p>
@@ -160,7 +160,7 @@ export default function BrandProductsPage({
           </p>
           <Link
             href="/brands"
-            className="mt-5 inline-block rounded-lg bg-[#C8A96E] px-5 py-2.5 text-sm font-semibold text-white no-underline"
+            className="mt-5 inline-block rounded-lg bg-[#a937e2] px-5 py-2.5 text-sm font-semibold text-white no-underline"
           >
             Browse All Brands
           </Link>

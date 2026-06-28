@@ -16,7 +16,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { getHeaderCategories } from "@/lib/productCatalog";
-import Image from "next/image";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -963,7 +962,6 @@ function MobileDrawer({ onClose }: { onClose: () => void }) {
             Company
           </div>
           {[
-            { label: "About Us", href: "/about" },
             { label: "Contact", href: "/contact" },
             { label: "Track Order", href: "/track" },
           ].map((item) => (
@@ -1268,13 +1266,7 @@ export default function Header() {
             }}
           >
             {/* Replace the span below with your <img> logo */}
-            <Image
-              src="https://divandione.com/_next/static/media/brand.0etw48jrlgwbv.svg"
-              alt="Brand Logo"
-              width={40}
-              height={40}
-            />
-            {/* <span
+            <span
               style={{
                 fontSize: "20px",
                 fontWeight: 800,
@@ -1284,7 +1276,7 @@ export default function Header() {
               }}
             >
               <span style={{ color: "#C8A96E" }}>Divan </span>Dion
-            </span> */}
+            </span>
           </Link>
 
           {/* ── Desktop Category Nav ── */}
@@ -1318,13 +1310,6 @@ export default function Header() {
                 />
               </button>
             ))}
-            <Link
-              href="/about"
-              className="header-nav-link"
-              style={{ padding: "6px 10px" }}
-            >
-              About
-            </Link>
             <Link
               href="/contact"
               className="header-nav-link"

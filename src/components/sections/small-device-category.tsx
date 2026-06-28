@@ -84,7 +84,7 @@ export default function SmallDeviceCategory() {
     return colors[index % colors.length];
   };
   return (
-    <div className="mt-8">
+    <div className="container mx-auto">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 px-2">
         <h2 className="text-xl font-bold text-gray-800">Shop by Category</h2>
@@ -98,13 +98,13 @@ export default function SmallDeviceCategory() {
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-5 md:grid-cols-10 gap-3">
+      <div className="grid grid-cols-5 md:grid-cols-10 gap-3 bg-gray-100 p-2 rounded-md shadow">
         {CATEGORIES.map((category, index) => (
           <Link
             key={category._id}
             href={`/categories/${category.slug}`}
             // style={{ backgroundColor: randomColor(index) }}
-            className="group relative overflow-hidden rounded-lg p-2 transition-shadow flex items-center justify-center flex-col"
+            className="group relative overflow-hidden rounded-lg p-2 transition-shadow flex items-center justify-center flex-col hover:bg-gray-200"
           >
             {/* Image Container */}
             <div className="relative w-10 aspect-square overflow-hidden ">

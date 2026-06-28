@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   // Pages that don't need the main layout
-  const noLayoutPages = ["/login", "/register", "/404", "/age-verification"];
+  const noLayoutPages = ["/login", "/signup", "/404", "/age-verification"];
 
   if (noLayoutPages.includes(router.pathname)) {
     return <Component {...pageProps} />;

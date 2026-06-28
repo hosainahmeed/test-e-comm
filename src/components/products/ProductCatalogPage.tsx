@@ -64,11 +64,11 @@ export default function ProductCatalogPage({
         className="mb-5 flex flex-wrap items-center gap-1 text-sm text-gray-500"
         aria-label="Breadcrumb"
       >
-        <Link href="/" className="text-[#C8A96E] hover:underline">
+        <Link href="/" className="text-[#a937e2] hover:underline">
           Home
         </Link>
         <span>/</span>
-        <Link href="/products" className="text-[#C8A96E] hover:underline">
+        <Link href="/products" className="text-[#a937e2] hover:underline">
           Products
         </Link>
         <span>/</span>
@@ -76,7 +76,7 @@ export default function ProductCatalogPage({
           <>
             <Link
               href={getCategoryHref(category.slug)}
-              className="text-[#C8A96E] hover:underline"
+              className="text-[#a937e2] hover:underline"
             >
               {category.label}
             </Link>
@@ -105,7 +105,7 @@ export default function ProductCatalogPage({
           {!subcategory && (
             <Link
               href="/products"
-              className="inline-flex items-center text-sm font-semibold text-[#C8A96E] hover:underline"
+              className="inline-flex items-center text-sm font-semibold text-[#a937e2] hover:underline"
             >
               View all products →
             </Link>
@@ -131,13 +131,13 @@ export default function ProductCatalogPage({
             href={getSubcategoryHref(category.slug, item.slug)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               subcategory?.slug === item.slug
-                ? "bg-[#C8A96E] text-white!"
-                : "bg-gray-100 text-gray-700 hover:bg-[#C8A96E]"
+                ? "bg-[#a937e2] text-white!"
+                : "bg-gray-100 text-gray-700 hover:bg-[#a937e2]"
             }`}
           >
             {item.label}
             {item.badge ? (
-              <span className="ml-1.5 rounded bg-[#C8A96E] px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">
+              <span className="ml-1.5 rounded bg-[#a937e2] px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">
                 {item.badge}
               </span>
             ) : null}
@@ -179,7 +179,7 @@ export default function ProductCatalogPage({
           </p>
           <Link
             href={getCategoryHref(category.slug)}
-            className="mt-5 inline-block rounded-lg bg-[#C8A96E] px-5 py-2.5 text-sm font-semibold text-white no-underline"
+            className="mt-5 inline-block rounded-lg bg-[#a937e2] px-5 py-2.5 text-sm font-semibold text-white no-underline"
           >
             Browse {category.label}
           </Link>
