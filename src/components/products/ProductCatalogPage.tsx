@@ -119,7 +119,7 @@ export default function ProductCatalogPage({
           href={getCategoryHref(category.slug)}
           className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
             !subcategory
-              ? "bg-[#111] text-white"
+              ? "bg-white text-black"
               : "bg-gray-100 text-gray-700 hover:bg-gray-200"
           }`}
         >
@@ -131,8 +131,8 @@ export default function ProductCatalogPage({
             href={getSubcategoryHref(category.slug, item.slug)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               subcategory?.slug === item.slug
-                ? "bg-[#111] text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                ? "bg-[#C8A96E] text-white!"
+                : "bg-gray-100 text-gray-700 hover:bg-[#C8A96E]"
             }`}
           >
             {item.label}
@@ -174,7 +174,8 @@ export default function ProductCatalogPage({
       ) : (
         <div className="rounded-2xl bg-gray-50 py-16 text-center">
           <p className="text-lg text-gray-600">
-            No products found in this {subcategory ? "subcategory" : "category"}.
+            No products found in this {subcategory ? "subcategory" : "category"}
+            .
           </p>
           <Link
             href={getCategoryHref(category.slug)}

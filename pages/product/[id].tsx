@@ -1,9 +1,10 @@
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import ProductDetail from "@/components/products/ProductDetail";
 import ProductReviews from "@/components/products/ProductReviews";
-import { fetchProductById, Product } from "@/lib/productServerApi";
+import { fetchProductById, Product, Review } from "@/lib/productServerApi";
 
 interface ProductPageProps {
   product: Product | null;
@@ -11,6 +12,7 @@ interface ProductPageProps {
 
 export default function ProductPage({ product }: ProductPageProps) {
   const router = useRouter();
+  const [reviews, setReviews] = useState<Review[]>(product?.reviews || []);
 
   if (router.isFallback) {
     return (
@@ -53,6 +55,10 @@ export default function ProductPage({ product }: ProductPageProps) {
     );
   }
 
+  const handleAddReview = (newReview: Review) => {
+    setReviews((prev) => [newReview, ...prev]);
+  };
+
   return (
     <div className="container mx-auto">
       <Link
@@ -68,8 +74,8 @@ export default function ProductPage({ product }: ProductPageProps) {
       >
         ← Back to Products
       </Link>
-      <ProductDetail product={product} />
-      <ProductReviews reviews={product.reviews} />
+      <ProductDetail product={{ ...product, reviews }} />
+      <ProductReviews reviews={reviews} onAddReview={handleAddReview} />
     </div>
   );
 }

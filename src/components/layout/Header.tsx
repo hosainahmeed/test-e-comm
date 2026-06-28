@@ -1437,7 +1437,7 @@ export default function Header() {
               className="text-gray-400"
               style={{ flex: 1, textAlign: "left" }}
             >
-              Search hookahs, shisha, rolling papers and accesories...
+              Search ...
             </span>
           </button>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import {
@@ -13,6 +13,9 @@ import {
   RotateCcw,
   ShieldCheck,
   Expand,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import type { Product } from "@/lib/productServerApi";
@@ -39,6 +42,56 @@ interface ProductDetailProps {
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  const handlePrev = () => {
+    if (!product?.images?.length) return;
+    setLightboxIndex(
+      (prev) => (prev - 1 + product.images.length) % product.images.length,
+    );
+  };
+
+  const handleNext = () => {
+    if (!product?.images?.length) return;
+    setLightboxIndex((prev) => (prev + 1) % product.images.length);
+  };
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsLightboxOpen(false);
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen, product?.images?.length, lightboxIndex]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diffX = touchStartX.current - touchEndX.current;
+    const threshold = 50; // swipe threshold in px
+    if (diffX > threshold) {
+      handleNext();
+    } else if (diffX < -threshold) {
+      handlePrev();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
 
   const originalPrice =
     product?.discountPercentage > 0
@@ -92,7 +145,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           <div className="overflow-hidden rounded-xl lg:hidden">
             <MobileImageCarousel
               images={product?.images || []}
-              title={product?.title || ''}
+              title={product?.title || ""}
               discountPercentage={product?.discountPercentage || 0}
             />
           </div>
@@ -125,7 +178,13 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   key={label}
                   type="button"
                   aria-label={label}
-                  className="grid h-10 w-10 place-items-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur transition-all duration-300 hover:scale-[1.05]"
+                  onClick={() => {
+                    if (label === "Expand product") {
+                      setLightboxIndex(selectedImage);
+                      setIsLightboxOpen(true);
+                    }
+                  }}
+                  className="grid h-10 w-10 place-items-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur transition-all duration-300 hover:scale-[1.05] cursor-pointer"
                 >
                   <Icon className="h-4 w-4" />
                 </button>
@@ -349,7 +408,111 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </div>
         </div>
       </div>
+
+      {/* ── Lightbox Modal ── */}
+      {isLightboxOpen && product?.images && (
+        <div
+          className="fixed inset-0 z-99999999 flex flex-col justify-between bg-black/95 backdrop-blur-md transition-opacity duration-300"
+          role="dialog"
+          aria-modal="true"
+        >
+          {/* Top panel: Title & Close */}
+          <div className="flex items-center justify-between p-4 md:p-6 text-white bg-linear-to-b from-black/50 to-transparent">
+            <div>
+              <h3 className="font-light tracking-wide text-sm md:text-base">
+                {product.title}
+              </h3>
+              <p className="text-xs text-zinc-400">
+                Image {lightboxIndex + 1} of {product.images.length}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsLightboxOpen(false)}
+              className="p-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white transition-all cursor-pointer"
+              aria-label="Close lightbox"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Main content: Prev, Image, Next */}
+          <div
+            className="relative flex-1 flex items-center justify-center px-4 bg-white z-999!"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Prev button */}
+            {product.images.length > 1 && (
+              <button
+                type="button"
+                onClick={handlePrev}
+                className="absolute left-4 md:left-8 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white/80 hover:text-white backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                aria-label="Previous image"
+              >
+                <ChevronLeft className="h-6 w-6 text-white" />
+              </button>
+            )}
+
+            {/* Image */}
+            <div className="relative w-full h-[60vh] md:h-[75vh] max-w-5xl flex items-center justify-center">
+              <Image
+                src={product.images[lightboxIndex]}
+                alt={`${product.title} expanded view`}
+                fill
+                priority
+                className="object-contain select-none pointer-events-none"
+                sizes="(max-width: 1024px) 100vw, 1200px"
+              />
+            </div>
+
+            {/* Next button */}
+            {product.images.length > 1 && (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="absolute right-4 md:right-8 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-black hover:text-white backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                aria-label="Next image"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            )}
+          </div>
+
+          {/* Bottom panel: Thumbnail Strip */}
+          <div className="p-4 md:p-6 bg-linear-to-t from-black/50 to-transparent flex flex-col items-center gap-3">
+            {product.images.length > 1 && (
+              <div className="flex gap-2 max-w-full overflow-x-auto py-2 px-4 no-scrollbar justify-center">
+                {product.images.map((img, i) => (
+                  <button
+                    key={img + i}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    className={cn(
+                      "relative aspect-square w-12 md:w-16 rounded overflow-hidden border-2 transition-all cursor-pointer",
+                      lightboxIndex === i
+                        ? "border-white scale-105"
+                        : "border-transparent opacity-50 hover:opacity-100",
+                    )}
+                  >
+                    <Image
+                      src={img}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+            <span className="text-xs text-zinc-500 hidden md:block">
+              Use arrow keys or swipe on mobile to navigate
+            </span>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
-

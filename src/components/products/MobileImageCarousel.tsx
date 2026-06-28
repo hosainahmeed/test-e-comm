@@ -5,12 +5,7 @@ import { useState, useRef, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Observer } from "gsap/Observer";
-import {
-  Expand,
-  Heart,
-  Share2,
-  X,
-} from "lucide-react";
+import { Expand, Heart, Share2, X } from "lucide-react";
 import Image from "next/image";
 import DotIndicator from "./DotIndicator";
 const MobileImageCarousel = ({
@@ -34,7 +29,7 @@ const MobileImageCarousel = ({
   // Snap to a given index with GSAP
   const snapTo = useCallback(
     (index: number, instant = false) => {
-      if (typeof window === 'undefined') return;
+      if (typeof window === "undefined") return;
       const clampedIndex = Math.max(0, Math.min(count - 1, index));
       setCurrent(clampedIndex);
       if (!trackRef.current) return;
@@ -49,7 +44,8 @@ const MobileImageCarousel = ({
   );
 
   useGSAP(() => {
-    if (typeof window === 'undefined' || !containerRef.current || count <= 1) return;
+    if (typeof window === "undefined" || !containerRef.current || count <= 1)
+      return;
     const width = () => containerRef.current?.offsetWidth ?? window.innerWidth;
     const obs = Observer.create({
       target: containerRef.current,
@@ -187,13 +183,13 @@ const MobileImageCarousel = ({
 
       {/* Full-screen image viewer */}
       {isExpanded && (
-        <div className="fixed inset-0 z-999 bg-black/95 flex items-center justify-center h-dvh">
+        <div className="fixed inset-0 z-9999999999 bg-white flex items-center justify-center h-screen">
           {/* Close button */}
           <button
             type="button"
             aria-label="Close"
-            className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
-            onClick={() => setIsExpanded(false)}
+            className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-black/40 text-black backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
+            onClick={() => setIsExpanded(!isExpanded)}
           >
             <X className="h-5 w-5" />
           </button>
@@ -207,8 +203,18 @@ const MobileImageCarousel = ({
                 className="absolute left-4 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-white backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
                 onClick={handlePrevImage}
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <button
@@ -217,20 +223,30 @@ const MobileImageCarousel = ({
                 className="absolute right-4 grid h-12 w-12 place-items-center rounded-full bg-white/10 text-white backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
                 onClick={handleNextImage}
               >
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </>
           )}
 
           {/* Full-screen image */}
-          <div className="relative w-full h-full flex items-center justify-center p-4">
+          <div className="relative w-full h-full flex items-center justify-center p-4 pointer-events-none">
             <Image
-              src={images?.[current] || ''}
+              src={images?.[current] || ""}
               alt={`${title} ${current + 1}`}
               fill
-              className="object-contain"
+              className="object-contain pointer-events-none"
               priority
             />
           </div>
@@ -244,7 +260,7 @@ const MobileImageCarousel = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default MobileImageCarousel;
