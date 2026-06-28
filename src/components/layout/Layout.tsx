@@ -27,8 +27,8 @@ export default function Layout({
         }}
       >
         <Header />
-        <main className="pt-[70px] md:pt-[20px]">{children}</main>
-        {/* <Footer /> */}
+        <main className="py-[70px] md:pt-[20px]">{children}</main>
+        <Footer />
       </div>
     </>
   );

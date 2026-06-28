@@ -100,7 +100,9 @@ export default function BrandProductsPage({
                 <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                 <strong>{brand.rating}</strong> rating
               </span>
-              <span>{total} product{total !== 1 ? "s" : ""}</span>
+              <span>
+                {total} product{total !== 1 ? "s" : ""}
+              </span>
               <span>{brand.country}</span>
               <span>Est. {brand.established}</span>
             </div>

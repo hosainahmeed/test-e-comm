@@ -3,6 +3,7 @@ import CategoriesSection from "@/components/sections/CategoriesSection";
 import FlashSale from "@/components/sections/FlashSale";
 import HeroSection from "@/components/sections/HeroSection";
 import PopularBrands from "@/components/sections/popularBrands";
+import RecentlyViewed from "@/components/sections/RecentlyViewed";
 import SmallDeviceCategory from "@/components/sections/small-device-category";
 import { IMAGE } from "@/constant/image.index";
 import Image from "next/image";
@@ -32,6 +33,7 @@ function index() {
 
         <DownloadAds />
       </div>
+      <RecentlyViewed />
     </div>
   );
 }
