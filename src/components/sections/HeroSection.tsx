@@ -17,7 +17,7 @@ function HeroSection() {
       title: "Premium Hookah Collection",
       subtitle: "Discover our handcrafted pieces",
       cta: "Shop Now",
-      link: "/collections/premium",
+      link: "/products",
     },
     {
       _id: "6a2f30c7071ea4fa74e2985c",
@@ -25,7 +25,7 @@ function HeroSection() {
       title: "New Arrivals",
       subtitle: "Latest flavors and accessories",
       cta: "Explore",
-      link: "/new-arrivals",
+      link: "/products",
     },
     {
       _id: "6a2f30d0071ea4fa74e29861",
@@ -33,7 +33,7 @@ function HeroSection() {
       title: "Rolling Papers",
       subtitle: "Premium quality for the perfect roll",
       cta: "View Collection",
-      link: "/collections/rolling-papers",
+      link: "/products",
     },
     {
       _id: "6a2f30d8071ea4fa74e29866",
@@ -41,7 +41,7 @@ function HeroSection() {
       title: "Accessories Sale",
       subtitle: "Up to 30% off on select items",
       cta: "Shop Deals",
-      link: "/sale",
+      link: "/products",
     },
     {
       _id: "6a2f351d071ea4fa74e298a0",
@@ -49,7 +49,7 @@ function HeroSection() {
       title: "Summer Essentials",
       subtitle: "Everything you need for outdoor sessions",
       cta: "Learn More",
-      link: "/summer-collection",
+      link: "/products",
     },
   ];
 

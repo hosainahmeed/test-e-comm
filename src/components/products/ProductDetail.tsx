@@ -61,6 +61,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   };
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     if (!isLightboxOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsLightboxOpen(false);

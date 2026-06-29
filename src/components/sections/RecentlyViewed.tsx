@@ -211,7 +211,7 @@ function RecentlyViewed() {
                 <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                   {/* Product Image - Fixed Overlay Issue */}
                   <Link
-                    href={`/products/${product.id}`}
+                    href={`/product/${product.id}`}
                     className="block relative"
                   >
                     <div className="w-full h-40 bg-white flex items-center justify-center">
@@ -255,7 +255,7 @@ function RecentlyViewed() {
               >
                 {/* Product Image - Fixed Overlay Issue */}
                 <Link
-                  href={`/products/${product.id}`}
+                  href={`/product/${product.id}`}
                   className="block relative"
                 >
                   <div className="w-full h-72 bg-white flex items-center justify-center">

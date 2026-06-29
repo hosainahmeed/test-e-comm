@@ -162,7 +162,11 @@ function CartScreen() {
           <ShoppingCart className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-600 mb-4">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.location.reload();
+              }
+            }}
             className="bg-[#B8965C] text-white px-6 py-2 rounded-lg"
           >
             Try Again

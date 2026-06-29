@@ -600,7 +600,7 @@ function AccountDropdown({
               label: "My Orders",
               href: "/account/orders",
             },
-            { icon: <Heart size={14} />, label: "Wishlist", href: "/wishlist" },
+            // { icon: <Heart size={14} />, label: "Wishlist", href: "/wishlist" },
             {
               icon: <Settings size={14} />,
               label: "Settings",
@@ -1025,6 +1025,7 @@ export default function Header() {
 
   // Scroll detection
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const handler = () => setIsScrolled(window.scrollY > 12);
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
@@ -1369,10 +1370,10 @@ export default function Header() {
             </button>
 
             {/* Wishlist */}
-            <Link href="/wishlist" className="icon-btn" aria-label="Wishlist">
+            {/* <Link href="/wishlist" className="icon-btn" aria-label="Wishlist">
               <Heart size={19} />
               <CountBadge count={WISHLIST_COUNT} />
-            </Link>
+            </Link> */}
 
             {/* Account */}
             <div ref={accountRef} style={{ position: "relative" }}>

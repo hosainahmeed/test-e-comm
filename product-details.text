@@ -1,0 +1,1281 @@
+// import { useState } from "react";
+// import { GetServerSideProps } from "next";
+// import { useRouter } from "next/router";
+// import Link from "next/link";
+// import ProductDetail from "@/componentshttps://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp";
+// import ProductReviews from "@/componentshttps://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp";
+// import { fetchProductById, Product, Review } from "@/libhttps://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp";
+
+// interface ProductPageProps {
+//   product: Product | null;
+// }
+
+// export default function ProductPage({ product }: ProductPageProps) {
+//   const router = useRouter();
+//   const [reviews, setReviews] = useState<Review[]>(product?.reviews || []);
+
+//   if (router.isFallback) {
+//     return (
+//       <div
+//         style={{
+//           display: "flex",
+//           justifyContent: "center",
+//           alignItems: "center",
+//           minHeight: "100vh",
+//         }}
+//       >
+//         <div style={{ textAlign: "center" }}>
+//           <h2>Loading...</h2>
+//           <p>Fetching product details...</p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (!product) {
+//     return (
+//       <div style={{ padding: "20px", textAlign: "center" }}>
+//         <h1>Product Not Found</h1>
+//         <p>The product you are looking for does not exist.</p>
+//         <Link
+//           href="https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webps"
+//           style={{
+//             display: "inline-block",
+//             marginTop: "20px",
+//             padding: "10px 20px",
+//             backgroundColor: "#3b82f6",
+//             color: "white",
+//             borderRadius: "8px",
+//             textDecoration: "none",
+//           }}
+//         >
+//           ← Back to Products
+//         </Link>
+//       </div>
+//     );
+//   }
+
+//   const handleAddReview = (newReview: Review) => {
+//     setReviews((prev) => [newReview, ...prev]);
+//   };
+
+//   return (
+//     <div className="container mx-auto">
+//       <Link
+//         href="https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webps"
+//         style={{
+//           display: "inline-block",
+//           marginBottom: "20px",
+//           color: "#3b82f6",
+//           textDecoration: "none",
+//           fontSize: "16px",
+//           fontWeight: "500",
+//         }}
+//       >
+//         ← Back to Products
+//       </Link>
+//       <ProductDetail product={{ ...product, reviews }} />
+//       <ProductReviews reviews={reviews} onAddReview={handleAddReview} />
+//     </div>
+//   );
+// }
+
+// export const getServerSideProps: GetServerSideProps<ProductPageProps> = async (
+//   context,
+// ) => {
+//   const { id } = context.params as { id: string };
+
+//   try {
+//     const product = await fetchProductById(Number(id));
+
+//     if (!product) {
+//       return { notFound: true };
+//     }
+
+//     return {
+//       props: { product },
+//     };
+//   } catch (error) {
+//     console.error("Error fetching product:", error);
+//     return { notFound: true };
+//   }
+// };
+
+// app/product/[slug]/page.tsx
+"use client";
+
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
+import Image from "next/image";
+import {
+  Heart,
+  Share2,
+  Copy,
+  Check,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Minus,
+  Plus,
+  Truck,
+  ShieldCheck,
+  RotateCcw,
+  ChevronDown,
+  ChevronUp,
+  X,
+  Play,
+} from "lucide-react";
+
+// --- Types ---
+interface ProductData {
+  product: Product;
+  media: Media;
+  attributes: Attribute[];
+  variants: Variant[];
+  reviewSummary: ReviewSummary;
+  marketing: Marketing;
+  analytics: Analytics;
+  shipping: Shipping;
+  returnPolicy: ReturnPolicy;
+  relatedProducts: any[];
+  recommendations: any[];
+}
+
+interface Product {
+  _id: string;
+  slug: string;
+  title: string;
+  shortDescription: string;
+  description: string;
+  brand: { id: string; name: string };
+  category: { id: string; name: string };
+  subCategory: { id: string; name: string };
+  collections: string[];
+  tags: string[];
+  gender: string;
+  countryOfOrigin: string;
+  material: string;
+  fit: string;
+  status: string;
+  seo: { title: string; description: string };
+}
+
+interface Media {
+  thumbnail: string;
+  imageGroups: ImageGroup[];
+}
+
+interface ImageGroup {
+  id: string;
+  label: string;
+  color: string;
+  images: string[];
+}
+
+interface Attribute {
+  name: string;
+  slug: string;
+  type: string;
+  filterable: boolean;
+  values: AttributeValue[];
+}
+
+interface AttributeValue {
+  slug?: string;
+  label: string;
+  hex?: string;
+  imageGroup?: string;
+}
+
+interface Variant {
+  id: string;
+  sku: string;
+  imageGroup: string;
+  price: { mrp: number; selling: number; currency: string };
+  inventory: { stock: number; available: boolean };
+  attributes: { [key: string]: string };
+}
+
+interface ReviewSummary {
+  average: number;
+  totalReviews: number;
+  distribution: { [key: string]: number };
+}
+
+interface Marketing {
+  badges: string[];
+  flashSale: { enabled: boolean; endsAt: string };
+}
+
+interface Analytics {
+  views: number;
+  sold: number;
+  wishlist: number;
+}
+
+interface Shipping {
+  freeShipping: boolean;
+  estimatedDelivery: string;
+  cashOnDelivery: boolean;
+}
+
+interface ReturnPolicy {
+  days: number;
+  exchange: boolean;
+}
+
+// --- Mock Data (from API response) ---
+const API_RESPONSE: ProductData = {
+  product: {
+    _id: "prd_001",
+    slug: "premium-oversized-cotton-tshirt",
+    title: "Premium Oversized Cotton T-Shirt",
+    shortDescription:
+      "Premium heavyweight oversized t-shirt made from 100% combed cotton.",
+    description:
+      "<p>Designed for everyday comfort with a modern oversized fit. Made from breathable premium cotton that stays soft after multiple washes.</p>",
+    brand: { id: "brand001", name: "Urban Wear" },
+    category: { id: "cat001", name: "Men" },
+    subCategory: { id: "sub001", name: "T-Shirts" },
+    collections: ["Summer Collection", "New Arrival"],
+    tags: ["Oversized", "Streetwear", "Cotton"],
+    gender: "MEN",
+    countryOfOrigin: "Bangladesh",
+    material: "100% Combed Cotton",
+    fit: "Oversized",
+    status: "ACTIVE",
+    seo: {
+      title: "Premium Oversized Cotton T-Shirt",
+      description: "Premium oversized cotton t-shirt.",
+    },
+  },
+  media: {
+    thumbnail:
+      "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+    imageGroups: [
+      {
+        id: "black",
+        label: "Black",
+        color: "#000000",
+        images: [
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+        ],
+      },
+      {
+        id: "white",
+        label: "White",
+        color: "#FFFFFF",
+        images: [
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+          "https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webp",
+        ],
+      },
+    ],
+  },
+  attributes: [
+    {
+      name: "Color",
+      slug: "color",
+      type: "color",
+      filterable: true,
+      values: [
+        { slug: "black", label: "Black", hex: "#000000", imageGroup: "black" },
+        { slug: "white", label: "White", hex: "#FFFFFF", imageGroup: "white" },
+      ],
+    },
+    {
+      name: "Size",
+      slug: "size",
+      type: "text",
+      filterable: true,
+      values: [{ label: "S" }, { label: "M" }, { label: "L" }, { label: "XL" }],
+    },
+  ],
+  variants: [
+    {
+      id: "var001",
+      sku: "TS-BLK-S",
+      imageGroup: "black",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 20, available: true },
+      attributes: { color: "black", size: "S" },
+    },
+    {
+      id: "var002",
+      sku: "TS-BLK-M",
+      imageGroup: "black",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 12, available: true },
+      attributes: { color: "black", size: "M" },
+    },
+    {
+      id: "var003",
+      sku: "TS-BLK-L",
+      imageGroup: "black",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 0, available: false },
+      attributes: { color: "black", size: "L" },
+    },
+    {
+      id: "var004",
+      sku: "TS-BLK-XL",
+      imageGroup: "black",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 5, available: true },
+      attributes: { color: "black", size: "XL" },
+    },
+    {
+      id: "var005",
+      sku: "TS-WHT-S",
+      imageGroup: "white",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 15, available: true },
+      attributes: { color: "white", size: "S" },
+    },
+    {
+      id: "var006",
+      sku: "TS-WHT-M",
+      imageGroup: "white",
+      price: { mrp: 1050, selling: 850, currency: "BDT" },
+      inventory: { stock: 8, available: true },
+      attributes: { color: "white", size: "M" },
+    },
+  ],
+  reviewSummary: {
+    average: 4.8,
+    totalReviews: 248,
+    distribution: { "5": 180, "4": 48, "3": 15, "2": 3, "1": 2 },
+  },
+  marketing: {
+    badges: ["Best Seller", "Trending", "Flash Sale"],
+    flashSale: { enabled: true, endsAt: "2026-07-01T23:59:59Z" },
+  },
+  analytics: { views: 24000, sold: 1500, wishlist: 900 },
+  shipping: {
+    freeShipping: true,
+    estimatedDelivery: "2-4 Days",
+    cashOnDelivery: true,
+  },
+  returnPolicy: { days: 7, exchange: true },
+  relatedProducts: [],
+  recommendations: [],
+};
+
+// --- Utility Functions ---
+const formatCurrency = (amount: number, currency: string = "BDT") => {
+  return new Intl.NumberFormat("en-BD", {
+    style: "currency",
+    currency,
+    minimumFractionDigits: 0,
+  }).format(amount);
+};
+
+const discountPercentage = (mrp: number, selling: number) => {
+  if (mrp <= 0) return 0;
+  return Math.round(((mrp - selling) / mrp) * 100);
+};
+
+// --- Components ---
+
+// 2. Breadcrumb
+const Breadcrumb = ({ product }: { product: Product }) => (
+  <nav
+    className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-sm text-gray-500 flex items-center gap-1.5"
+    aria-label="Breadcrumb"
+  >
+    <a href="/" className="hover:text-gray-800 transition-colors">
+      Home
+    </a>
+    <span>/</span>
+    <a href="#" className="hover:text-gray-800 transition-colors">
+      {product.category.name}
+    </a>
+    <span>/</span>
+    <a href="#" className="hover:text-gray-800 transition-colors">
+      {product.subCategory.name}
+    </a>
+    <span>/</span>
+    <span className="text-gray-900 font-medium truncate">{product.title}</span>
+  </nav>
+);
+
+// 3. Product Gallery with Zoom & Fullscreen
+const ProductGallery = ({
+  images,
+  selectedImageIndex,
+  setSelectedImageIndex,
+  colorLabel,
+}: {
+  images: string[];
+  selectedImageIndex: number;
+  setSelectedImageIndex: (index: number) => void;
+  colorLabel: string;
+}) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [zoomStyle, setZoomStyle] = useState({
+    backgroundImage: "",
+    backgroundPosition: "0% 0%",
+    backgroundSize: "200%",
+  });
+  const [isZoomed, setIsZoomed] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!imageRef.current) return;
+    const { left, top, width, height } =
+      imageRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setZoomStyle({
+      backgroundImage: `url(${images[selectedImageIndex]})`,
+      backgroundPosition: `${x}% ${y}%`,
+      backgroundSize: "200%",
+    });
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => setIsZoomed(false);
+
+  const handleTouchStart = (e: React.TouchEvent) =>
+    setTouchStart(e.touches[0].clientX);
+  const handleTouchMove = (e: React.TouchEvent) =>
+    setTouchEnd(e.touches[0].clientX);
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 50) {
+      setSelectedImageIndex(
+        Math.min(images.length - 1, selectedImageIndex + 1),
+      );
+    }
+    if (touchStart - touchEnd < -50) {
+      setSelectedImageIndex(Math.max(0, selectedImageIndex - 1));
+    }
+  };
+
+  return (
+    <div className="w-full lg:sticky lg:top-24 self-start">
+      {/* Main Image with Zoom */}
+      <div
+        ref={imageRef}
+        className="relative w-full aspect-3/4 bg-gray-50 rounded-2xl overflow-hidden cursor-crosshair group mb-4"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onClick={() => setIsFullscreen(true)}
+        role="img"
+        aria-label={`Product image ${selectedImageIndex + 1} of ${images.length} in ${colorLabel}`}
+      >
+        <Image
+          src={images[selectedImageIndex]}
+          alt={`Product view ${selectedImageIndex + 1}`}
+          fill
+          className={`object-cover transition-opacity duration-300 ${isZoomed ? "opacity-0" : "opacity-100"}`}
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority
+          draggable={false}
+        />
+        {isZoomed && (
+          <div className="absolute inset-0 w-full h-full" style={zoomStyle} />
+        )}
+        <button
+          className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-white"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFullscreen(true);
+          }}
+          aria-label="Open fullscreen"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="15 3 21 3 21 9" />
+            <polyline points="9 21 3 21 3 15" />
+            <line x1="21" y1="3" x2="14" y2="10" />
+            <line x1="3" y1="21" x2="10" y2="14" />
+          </svg>
+        </button>
+        <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm text-xs font-medium px-2.5 py-1 rounded-full">
+          {selectedImageIndex + 1} / {images.length}
+        </div>
+      </div>
+
+      {/* Thumbnails */}
+      <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+        {images.map((img, idx) => (
+          <button
+            key={idx}
+            onClick={() => setSelectedImageIndex(idx)}
+            className={`relative w-20 h-20 rounded-xl overflow-hidden  shrink-0 border-2 transition-all duration-200 ${
+              idx === selectedImageIndex
+                ? "border-black shadow-md"
+                : "border-transparent hover:border-gray-300"
+            }`}
+          >
+            <Image
+              src={img}
+              alt={`Thumbnail ${idx + 1}`}
+              fill
+              className="object-cover"
+              sizes="80px"
+            />
+          </button>
+        ))}
+      </div>
+
+      {/* Fullscreen Modal */}
+      {isFullscreen && (
+        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+          <button
+            className="absolute top-6 right-6 text-white p-2 hover:bg-white/20 rounded-full transition-colors z-50"
+            onClick={() => setIsFullscreen(false)}
+            aria-label="Close fullscreen"
+          >
+            <X size={28} />
+          </button>
+          <button
+            className="absolute left-6 top-1/2 -translate-y-1/2 text-white p-2 hover:bg-white/20 rounded-full transition-colors z-50"
+            onClick={() =>
+              setSelectedImageIndex(Math.max(0, selectedImageIndex - 1))
+            }
+            disabled={selectedImageIndex === 0}
+            aria-label="Previous image"
+          >
+            <ChevronLeft size={36} />
+          </button>
+          <div className="w-full h-full max-w-5xl max-h-[90vh] relative p-4">
+            <Image
+              src={images[selectedImageIndex]}
+              alt={`Fullscreen view ${selectedImageIndex + 1}`}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+          <button
+            className="absolute right-6 top-1/2 -translate-y-1/2 text-white p-2 hover:bg-white/20 rounded-full transition-colors z-50"
+            onClick={() =>
+              setSelectedImageIndex(
+                Math.min(images.length - 1, selectedImageIndex + 1),
+              )
+            }
+            disabled={selectedImageIndex === images.length - 1}
+            aria-label="Next image"
+          >
+            <ChevronRight size={36} />
+          </button>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setSelectedImageIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all ${idx === selectedImageIndex ? "bg-white w-6" : "bg-white/50"}`}
+                aria-label={`Go to image ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 4. Variant Selector
+const VariantSelector = ({
+  attributes,
+  variants,
+  selectedAttributes,
+  setSelectedAttributes,
+  onVariantChange,
+}: {
+  attributes: Attribute[];
+  variants: Variant[];
+  selectedAttributes: { [key: string]: string };
+  setSelectedAttributes: React.Dispatch<
+    React.SetStateAction<{ [key: string]: string }>
+  >;
+  onVariantChange: (attributes: { [key: string]: string }) => void;
+}) => {
+  const isCombinationAvailable = useCallback(
+    (attrSlug: string, value: string) => {
+      const testAttributes = { ...selectedAttributes, [attrSlug]: value };
+      return variants.some((v) =>
+        Object.entries(testAttributes).every(
+          ([key, val]) => v.attributes[key] === val,
+        ),
+      );
+    },
+    [selectedAttributes, variants],
+  );
+
+  const handleSelect = (attrSlug: string, value: string) => {
+    if (!isCombinationAvailable(attrSlug, value)) return;
+    const newAttributes = { ...selectedAttributes, [attrSlug]: value };
+    setSelectedAttributes(newAttributes);
+    onVariantChange(newAttributes);
+  };
+
+  return (
+    <div className="space-y-6">
+      {attributes.map((attr) => (
+        <div key={attr.slug}>
+          <div className="flex items-center justify-between mb-3">
+            <label className="text-sm font-semibold text-gray-900">
+              {attr.name}
+            </label>
+            {selectedAttributes[attr.slug] && (
+              <span className="text-sm text-gray-500">
+                {attr.values.find(
+                  (v) =>
+                    v.slug === selectedAttributes[attr.slug] ||
+                    v.label === selectedAttributes[attr.slug],
+                )?.label || selectedAttributes[attr.slug]}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {attr.values.map((val) => {
+              const isSelected =
+                selectedAttributes[attr.slug] === (val.slug || val.label);
+              const isAvailable = isCombinationAvailable(
+                attr.slug,
+                val.slug || val.label,
+              );
+              const isColor = attr.type === "color" && val.hex;
+
+              return (
+                <button
+                  key={val.slug || val.label}
+                  onClick={() => handleSelect(attr.slug, val.slug || val.label)}
+                  disabled={!isAvailable}
+                  className={`
+                    relative group
+                    ${isColor ? "w-10 h-10 rounded-full" : "h-10 px-4 rounded-xl text-sm font-medium"}
+                    transition-all duration-200
+                    ${
+                      isSelected
+                        ? isColor
+                          ? "ring-2 ring-offset-2 ring-black scale-110"
+                          : "bg-black text-white shadow-lg"
+                        : isAvailable
+                          ? isColor
+                            ? "hover:ring-2 hover:ring-offset-2 hover:ring-gray-400 hover:scale-105"
+                            : "bg-gray-100 hover:bg-gray-200 text-gray-900"
+                          : "bg-gray-50 text-gray-300 cursor-not-allowed line-through"
+                    }
+                  `}
+                  style={isColor ? { backgroundColor: val.hex } : {}}
+                  aria-label={`${attr.name}: ${val.label}${!isAvailable ? " (unavailable)" : ""}`}
+                >
+                  {!isColor && val.label}
+                  {isColor && isSelected && (
+                    <span className="absolute inset-0 flex items-center justify-center">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke={val.hex === "#000000" ? "white" : "black"}
+                        strokeWidth="3"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Flash Sale Countdown
+const CountdownTimer = ({ endsAt }: { endsAt: string }) => {
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = new Date(endsAt).getTime() - now;
+      if (distance < 0) {
+        clearInterval(timer);
+        return;
+      }
+      setTimeLeft({
+        hours: Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        ),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [endsAt]);
+
+  return (
+    <div className="flex items-center gap-2 text-sm font-mono bg-red-50 text-red-600 px-3 py-1.5 rounded-full">
+      <span className="font-semibold">Ends in</span>
+      <span>
+        {String(timeLeft.hours).padStart(2, "0")}h{" "}
+        {String(timeLeft.minutes).padStart(2, "0")}m{" "}
+        {String(timeLeft.seconds).padStart(2, "0")}s
+      </span>
+    </div>
+  );
+};
+
+// Star Rating Component
+const StarRating = ({
+  rating,
+  size = 16,
+}: {
+  rating: number;
+  size?: number;
+}) => (
+  <div
+    className="flex items-center gap-0.5"
+    aria-label={`Rating: ${rating} out of 5 stars`}
+  >
+    {[1, 2, 3, 4, 5].map((star) => (
+      <Star
+        key={star}
+        size={size}
+        className={
+          star <= Math.round(rating)
+            ? "text-yellow-400 fill-yellow-400"
+            : "text-gray-300 fill-gray-300"
+        }
+      />
+    ))}
+  </div>
+);
+
+// Review Section
+const ReviewsSection = ({
+  reviewSummary,
+}: {
+  reviewSummary: ReviewSummary;
+}) => {
+  const maxDistribution = Math.max(
+    ...Object.values(reviewSummary.distribution),
+    1,
+  );
+  return (
+    <section className="mt-16 border-t border-gray-100 pt-12">
+      <h2 className="text-2xl font-semibold text-gray-900 mb-8">
+        Customer Reviews
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="col-span-1 flex flex-col items-center justify-center p-6 bg-gray-50 rounded-2xl">
+          <span className="text-5xl font-bold text-gray-900">
+            {reviewSummary.average}
+          </span>
+          <StarRating rating={reviewSummary.average} size={24} />
+          <span className="text-sm text-gray-500 mt-2">
+            {reviewSummary.totalReviews} reviews
+          </span>
+        </div>
+        <div className="col-span-2 space-y-2">
+          {[5, 4, 3, 2, 1].map((star) => (
+            <div key={star} className="flex items-center gap-3 text-sm">
+              <span className="w-8 text-right font-medium">{star} ★</span>
+              <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-yellow-400 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${(reviewSummary.distribution[star.toString()] / maxDistribution) * 100}%`,
+                  }}
+                />
+              </div>
+              <span className="w-10 text-gray-500">
+                {reviewSummary.distribution[star.toString()] || 0}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <button className="mt-6 w-full md:w-auto px-8 py-3 bg-black text-white rounded-xl font-medium hover:bg-gray-800 transition-colors">
+        Write a Review
+      </button>
+    </section>
+  );
+};
+
+// FAQ Section
+const FAQSection = () => {
+  const faqs = [
+    {
+      q: "What is the fit like?",
+      a: "This t-shirt has an oversized fit. We recommend taking your usual size for the intended look, or size down for a more regular fit.",
+    },
+    {
+      q: "How should I wash it?",
+      a: "Machine wash cold with similar colors. Tumble dry low. Do not bleach. Iron on medium heat if needed.",
+    },
+    {
+      q: "Is the color true to the photos?",
+      a: "We make every effort to display colors accurately, but slight variations may occur due to monitor settings.",
+    },
+  ];
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="mt-16 border-t border-gray-100 pt-12">
+      <h2 className="text-2xl font-semibold text-gray-900 mb-8">
+        Frequently Asked Questions
+      </h2>
+      <div className="space-y-3">
+        {faqs.map((faq, idx) => (
+          <div
+            key={idx}
+            className="border border-gray-200 rounded-2xl overflow-hidden"
+          >
+            <button
+              onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+              className="w-full flex items-center justify-between p-5 text-left font-medium text-gray-900 hover:bg-gray-50 transition-colors"
+            >
+              {faq.q}
+              {openIndex === idx ? (
+                <ChevronUp size={20} />
+              ) : (
+                <ChevronDown size={20} />
+              )}
+            </button>
+            {openIndex === idx && (
+              <div className="px-5 pb-5 text-gray-600 leading-relaxed">
+                {faq.a}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// Main Page Component
+export default function ProductPage() {
+  const data = API_RESPONSE;
+  const {
+    product,
+    media,
+    attributes,
+    variants,
+    reviewSummary,
+    marketing,
+    analytics,
+    shipping,
+    returnPolicy,
+  } = data;
+
+  const [selectedAttributes, setSelectedAttributes] = useState<{
+    [key: string]: string;
+  }>({});
+  const [quantity, setQuantity] = useState(1);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Initialize default selections (first available variant)
+  useEffect(() => {
+    if (variants.length > 0) {
+      const firstAvailable =
+        variants.find((v) => v.inventory.available) || variants[0];
+      setSelectedAttributes(firstAvailable.attributes);
+    }
+  }, []);
+
+  // Memoized current variant
+  const currentVariant = useMemo(() => {
+    return (
+      variants.find((v) =>
+        Object.entries(selectedAttributes).every(
+          ([key, val]) => v.attributes[key] === val,
+        ),
+      ) || null
+    );
+  }, [selectedAttributes, variants]);
+
+  // Current image group based on selected color
+  const currentImageGroup = useMemo(() => {
+    const colorAttr = attributes.find((a) => a.slug === "color");
+    if (!colorAttr || !selectedAttributes.color) return media.imageGroups[0];
+    const selectedColorValue = colorAttr.values.find(
+      (v) => v.slug === selectedAttributes.color,
+    );
+    const groupId = selectedColorValue?.imageGroup || selectedAttributes.color;
+    return (
+      media.imageGroups.find((g) => g.id === groupId) || media.imageGroups[0]
+    );
+  }, [selectedAttributes, attributes, media.imageGroups]);
+
+  // Update images when variant changes
+  useEffect(() => {
+    setSelectedImageIndex(0);
+  }, [currentImageGroup]);
+
+  const handleVariantChange = (newAttributes: { [key: string]: string }) => {
+    // Updates are handled by state, memoized values recalculate
+  };
+
+  const handleAddToCart = () => {
+    if (!currentVariant) return;
+    console.log("Add to Cart:", { variant: currentVariant, quantity });
+    // Implement optimistic cart update
+  };
+
+  const handleBuyNow = () => {
+    if (!currentVariant) return;
+    console.log("Buy Now:", { variant: currentVariant, quantity });
+  };
+
+  const toggleWishlist = () => setIsWishlisted(!isWishlisted);
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  const price = currentVariant?.price;
+  const stock = currentVariant?.inventory.stock ?? 0;
+  const isAvailable = currentVariant?.inventory.available ?? false;
+  const discount = price ? discountPercentage(price.mrp, price.selling) : 0;
+
+  return (
+    <div className="min-h-screen bg-white text-gray-900 font-sans antialiased">
+      <Breadcrumb product={product} />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
+        {/* Main Product Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+          {/* Gallery */}
+          <ProductGallery
+            images={currentImageGroup.images}
+            selectedImageIndex={selectedImageIndex}
+            setSelectedImageIndex={setSelectedImageIndex}
+            colorLabel={currentImageGroup.label}
+          />
+
+          {/* Product Details */}
+          <div className="flex flex-col gap-6">
+            {/* Badges */}
+            {marketing.badges.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {marketing.badges.map((badge, idx) => (
+                  <span
+                    key={idx}
+                    className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                      badge === "Flash Sale"
+                        ? "bg-red-500 text-white"
+                        : badge === "Best Seller"
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-blue-100 text-blue-800"
+                    }`}
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Brand & Title */}
+            <div>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                {product.brand.name}
+              </p>
+              <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-gray-900">
+                {product.title}
+              </h1>
+              <p className="mt-2 text-gray-600 leading-relaxed">
+                {product.shortDescription}
+              </p>
+            </div>
+
+            {/* Ratings */}
+            <div className="flex items-center gap-4 flex-wrap">
+              <div className="flex items-center gap-2">
+                <StarRating rating={reviewSummary.average} />
+                <span className="font-semibold text-gray-900">
+                  {reviewSummary.average}
+                </span>
+                <span className="text-gray-500">
+                  ({reviewSummary.totalReviews})
+                </span>
+              </div>
+              <span className="text-gray-300">|</span>
+              <span className="text-sm text-gray-600">
+                {analytics.sold.toLocaleString()} sold
+              </span>
+              <span className="text-gray-300">|</span>
+              <span className="text-sm text-gray-600">
+                {analytics.wishlist.toLocaleString()} wishlisted
+              </span>
+            </div>
+
+            {/* Pricing */}
+            <div className="bg-gray-50 rounded-2xl p-5 space-y-3">
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-3xl font-bold text-gray-900">
+                  {price
+                    ? formatCurrency(price.selling, price.currency)
+                    : "N/A"}
+                </span>
+                {price && price.mrp > price.selling && (
+                  <>
+                    <span className="text-xl text-gray-400 line-through">
+                      {formatCurrency(price.mrp, price.currency)}
+                    </span>
+                    <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                      -{discount}%
+                    </span>
+                  </>
+                )}
+              </div>
+              {marketing.flashSale.enabled && (
+                <CountdownTimer endsAt={marketing.flashSale.endsAt} />
+              )}
+              {stock > 0 && stock <= 5 && (
+                <p className="text-sm font-medium text-orange-600">
+                  Only {stock} left in stock — order soon.
+                </p>
+              )}
+              {!isAvailable && (
+                <p className="text-sm font-medium text-red-600">
+                  Currently out of stock.
+                </p>
+              )}
+            </div>
+
+            {/* Variants */}
+            <VariantSelector
+              attributes={attributes}
+              variants={variants}
+              selectedAttributes={selectedAttributes}
+              setSelectedAttributes={setSelectedAttributes}
+              onVariantChange={handleVariantChange}
+            />
+
+            {/* SKU */}
+            {currentVariant && (
+              <p className="text-xs text-gray-400">SKU: {currentVariant.sku}</p>
+            )}
+
+            {/* Quantity & Actions */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <label className="text-sm font-semibold text-gray-900">
+                  Quantity
+                </label>
+                <div className="flex items-center border border-gray-300 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="p-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                    disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span className="w-12 text-center font-medium text-gray-900">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(Math.min(stock, quantity + 1))}
+                    className="p-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                    disabled={quantity >= stock || !isAvailable}
+                    aria-label="Increase quantity"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={handleAddToCart}
+                  disabled={!isAvailable}
+                  className="flex-1 py-4 px-6 bg-black text-white rounded-xl font-semibold hover:bg-gray-800 transition-all active:scale-[0.98] disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed shadow-lg shadow-black/10"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={handleBuyNow}
+                  disabled={!isAvailable}
+                  className="flex-1 py-4 px-6 bg-white border-2 border-black text-black rounded-xl font-semibold hover:bg-gray-50 transition-all active:scale-[0.98] disabled:border-gray-300 disabled:text-gray-400 disabled:cursor-not-allowed"
+                >
+                  Buy Now
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 pt-2">
+                <button
+                  onClick={toggleWishlist}
+                  className={`flex items-center gap-2 text-sm font-medium transition-colors ${isWishlisted ? "text-red-500" : "text-gray-600 hover:text-red-500"}`}
+                  aria-label="Add to wishlist"
+                >
+                  <Heart
+                    size={18}
+                    className={isWishlisted ? "fill-red-500" : ""}
+                  />
+                  {isWishlisted ? "Wishlisted" : "Wishlist"}
+                </button>
+                <button
+                  onClick={copyLink}
+                  className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                  aria-label="Share link"
+                >
+                  {isCopied ? (
+                    <Check size={18} className="text-green-500" />
+                  ) : (
+                    <Share2 size={18} />
+                  )}
+                  {isCopied ? "Copied!" : "Share"}
+                </button>
+              </div>
+            </div>
+
+            {/* Delivery & Returns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                <Truck
+                  size={20}
+                  className="text-gray-700 mt-0.5 flex-shrink-0"
+                />
+                <div>
+                  <p className="font-medium text-gray-900">Delivery</p>
+                  <p className="text-sm text-gray-600">
+                    {shipping.estimatedDelivery}
+                  </p>
+                  {shipping.freeShipping && (
+                    <p className="text-sm text-green-600 font-medium">
+                      Free Shipping
+                    </p>
+                  )}
+                  {shipping.cashOnDelivery && (
+                    <p className="text-sm text-gray-600">Cash on Delivery</p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
+                <ShieldCheck
+                  size={20}
+                  className="text-gray-700 mt-0.5 flex-shrink-0"
+                />
+                <div>
+                  <p className="font-medium text-gray-900">Returns</p>
+                  <p className="text-sm text-gray-600">
+                    {returnPolicy.days}-day return policy
+                  </p>
+                  {returnPolicy.exchange && (
+                    <p className="text-sm text-green-600 font-medium">
+                      Free Exchange
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Highlights */}
+            <div className="mt-2 flex flex-wrap gap-2">
+              <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full">
+                100% Combed Cotton
+              </span>
+              <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full">
+                Oversized Fit
+              </span>
+              <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full">
+                Made in Bangladesh
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Description */}
+        <section className="mt-16 border-t border-gray-100 pt-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            Description
+          </h2>
+          <div
+            className="prose prose-gray max-w-none text-gray-600 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: product.description }}
+          />
+        </section>
+
+        {/* Specifications */}
+        <section className="mt-16 border-t border-gray-100 pt-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Specifications
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { label: "Brand", value: product.brand.name },
+              {
+                label: "Category",
+                value: `${product.category.name} > ${product.subCategory.name}`,
+              },
+              { label: "Gender", value: product.gender },
+              { label: "Material", value: product.material },
+              { label: "Fit", value: product.fit },
+              { label: "Country of Origin", value: product.countryOfOrigin },
+              { label: "Collections", value: product.collections.join(", ") },
+              { label: "Tags", value: product.tags.join(", ") },
+            ].map((spec, idx) => (
+              <div key={idx} className="p-4 bg-gray-50 rounded-xl">
+                <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  {spec.label}
+                </dt>
+                <dd className="mt-1 text-sm text-gray-900">{spec.value}</dd>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Reviews */}
+        <ReviewsSection reviewSummary={reviewSummary} />
+
+        {/* FAQ */}
+        <FAQSection />
+
+        {/* Related Products Placeholder */}
+        <section className="mt-16 border-t border-gray-100 pt-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            You Might Also Like
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="aspect-[3/4] bg-gray-200 rounded-2xl mb-3" />
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
