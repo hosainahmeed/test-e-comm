@@ -252,7 +252,7 @@ function CartScreen() {
               >
                 <div className="flex gap-3">
                   {/* Product Image */}
-                  <div className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="w-20 h-20 shrink-0 bg-gray-100 rounded-lg overflow-hidden">
                     <Image
                       src={product.thumbnail}
                       alt={product.title}
@@ -302,7 +302,7 @@ function CartScreen() {
                         >
                           <Minus className="w-3.5 h-3.5" />
                         </button>
-                        <span className="px-3 text-sm font-semibold text-gray-900 min-w-[2rem] text-center">
+                        <span className="px-3 text-sm font-semibold text-gray-900 min-w-8 text-center">
                           {currentQty}
                         </span>
                         <button

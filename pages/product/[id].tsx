@@ -398,7 +398,7 @@ export default function ProductDetailsPage() {
                               onClick={() => updateAttr(attr.slug, slug)}
                               disabled={!avail}
                               className={cn(
-                                "relative min-w-[3rem] rounded-xl border px-4 py-2.5 text-sm font-medium transition",
+                                "relative min-w-12 rounded-xl border px-4 py-2.5 text-sm font-medium transition",
                                 isSel
                                   ? "border-foreground bg-foreground text-primary-foreground"
                                   : "border-border bg-surface text-foreground hover:border-border-strong",

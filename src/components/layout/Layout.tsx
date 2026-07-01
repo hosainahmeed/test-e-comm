@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Meta from "./Meta";
+import { ProfileProvider } from "@/contexts/ProfileContext";
 
 interface LayoutProps {
   children: ReactNode;
@@ -26,9 +27,11 @@ export default function Layout({
           flexDirection: "column",
         }}
       >
-        <Header />
-        <main className="py-[70px] md:pt-[20px]">{children}</main>
-        <Footer />
+        <ProfileProvider>
+          <Header />
+          <main className="py-[70px] md:pt-[20px]">{children}</main>
+          <Footer />
+        </ProfileProvider>
       </div>
     </>
   );

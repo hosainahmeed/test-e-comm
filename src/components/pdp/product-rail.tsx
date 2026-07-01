@@ -12,7 +12,7 @@ export function ProductCard({ p }: { p: RelatedProduct }) {
       : 0;
   return (
     <div className="group flex w-[220px] shrink-0 flex-col sm:w-[240px]">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-surface-muted">
+      <div className="relative aspect-4/5 overflow-hidden rounded-2xl bg-surface-muted">
         <img
           src={p.image}
           alt={p.title}
