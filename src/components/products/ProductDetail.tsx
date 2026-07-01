@@ -439,7 +439,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Main content: Prev, Image, Next */}
           <div
-            className="relative flex-1 flex items-center justify-center px-4 bg-white z-999!"
+            className="relative flex-1 flex items-center justify-center px-4"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -473,10 +473,10 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               <button
                 type="button"
                 onClick={handleNext}
-                className="absolute right-4 md:right-8 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-black hover:text-white backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                className="absolute right-4 md:right-8 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white/80 hover:text-white backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
                 aria-label="Next image"
               >
-                <ChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-6 w-6 text-white" />
               </button>
             )}
           </div>

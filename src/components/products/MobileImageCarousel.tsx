@@ -20,7 +20,7 @@ const MobileImageCarousel = ({
   const [current, setCurrent] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
-  const max-w-7xlRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const currentX = useRef(0);
@@ -33,7 +33,7 @@ const MobileImageCarousel = ({
       const clampedIndex = Math.max(0, Math.min(count - 1, index));
       setCurrent(clampedIndex);
       if (!trackRef.current) return;
-      const width = max-w-7xlRef.current?.offsetWidth ?? window.innerWidth;
+      const width = containerRef.current?.offsetWidth ?? window.innerWidth;
       gsap.to(trackRef.current, {
         x: -clampedIndex * width,
         duration: instant ? 0 : 0.42,
@@ -44,11 +44,11 @@ const MobileImageCarousel = ({
   );
 
   useGSAP(() => {
-    if (typeof window === "undefined" || !max-w-7xlRef.current || count <= 1)
+    if (typeof window === "undefined" || !containerRef.current || count <= 1)
       return;
-    const width = () => max-w-7xlRef.current?.offsetWidth ?? window.innerWidth;
+    const width = () => containerRef.current?.offsetWidth ?? window.innerWidth;
     const obs = Observer.create({
-      target: max-w-7xlRef.current,
+      target: containerRef.current,
       type: "touch,pointer",
       onPress: (self: any) => {
         isDragging.current = false;
@@ -113,7 +113,7 @@ const MobileImageCarousel = ({
   };
 
   return (
-    <div className="relative select-none overflow-hidden" ref={max-w-7xlRef}>
+    <div className="relative select-none overflow-hidden" ref={containerRef}>
       {/* Full-bleed image strip */}
       <div
         ref={trackRef}
@@ -183,12 +183,12 @@ const MobileImageCarousel = ({
 
       {/* Full-screen image viewer */}
       {isExpanded && (
-        <div className="fixed inset-0 z-9999999999 bg-white flex items-center justify-center h-screen">
+        <div className="fixed inset-0 z-9999999999 bg-black/95 backdrop-blur-md flex items-center justify-center h-screen">
           {/* Close button */}
           <button
             type="button"
             aria-label="Close"
-            className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-black/40 text-black backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
+            className="absolute top-4 right-4 grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white backdrop-blur transition-transform duration-200 hover:scale-105 active:scale-95"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <X className="h-5 w-5" />
