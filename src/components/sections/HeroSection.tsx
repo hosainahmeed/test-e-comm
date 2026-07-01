@@ -81,7 +81,7 @@ function HeroSection() {
 
   return (
     <section className="w-full">
-      <div className="container mx-auto px-1">
+      <div className="max-w-7xl mx-auto px-1">
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-2">
           {/* Main Banner Slider */}
           <div className="w-full lg:w-3/4">

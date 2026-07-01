@@ -58,7 +58,7 @@ export default function ProductCatalogPage({
   };
 
   return (
-    <div className="container mx-auto px-2 py-6 md:py-8">
+    <div className="max-w-7xl mx-auto px-2 py-6 md:py-8">
       {/* Breadcrumb */}
       <nav
         className="mb-5 flex flex-wrap items-center gap-1 text-sm text-gray-500"

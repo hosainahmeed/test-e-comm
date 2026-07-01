@@ -11,7 +11,7 @@ interface ProductsPageProps {
 export default function ProductsPage({ initialData }: ProductsPageProps) {
   return (
     <ProductDataProvider initialData={initialData}>
-      <div className="container mx-auto! px-2! py-8">
+      <div className="max-w-7xl mx-auto! px-2! py-8">
         <ProductTopFilter />
         <ProductList />
       </div>

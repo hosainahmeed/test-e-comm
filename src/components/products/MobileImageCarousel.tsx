@@ -20,7 +20,7 @@ const MobileImageCarousel = ({
   const [current, setCurrent] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const max-w-7xlRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const currentX = useRef(0);
@@ -33,7 +33,7 @@ const MobileImageCarousel = ({
       const clampedIndex = Math.max(0, Math.min(count - 1, index));
       setCurrent(clampedIndex);
       if (!trackRef.current) return;
-      const width = containerRef.current?.offsetWidth ?? window.innerWidth;
+      const width = max-w-7xlRef.current?.offsetWidth ?? window.innerWidth;
       gsap.to(trackRef.current, {
         x: -clampedIndex * width,
         duration: instant ? 0 : 0.42,
@@ -44,11 +44,11 @@ const MobileImageCarousel = ({
   );
 
   useGSAP(() => {
-    if (typeof window === "undefined" || !containerRef.current || count <= 1)
+    if (typeof window === "undefined" || !max-w-7xlRef.current || count <= 1)
       return;
-    const width = () => containerRef.current?.offsetWidth ?? window.innerWidth;
+    const width = () => max-w-7xlRef.current?.offsetWidth ?? window.innerWidth;
     const obs = Observer.create({
-      target: containerRef.current,
+      target: max-w-7xlRef.current,
       type: "touch,pointer",
       onPress: (self: any) => {
         isDragging.current = false;
@@ -113,7 +113,7 @@ const MobileImageCarousel = ({
   };
 
   return (
-    <div className="relative select-none overflow-hidden" ref={containerRef}>
+    <div className="relative select-none overflow-hidden" ref={max-w-7xlRef}>
       {/* Full-bleed image strip */}
       <div
         ref={trackRef}

@@ -27,7 +27,7 @@ export default function CategoryPage({
   }
 
   return (
-    <div className="container mx-auto px-2">
+    <div className="max-w-7xl mx-auto px-2">
       {/* Breadcrumb */}
       <div style={{ marginBottom: "20px", fontSize: "14px", color: "#6b7280" }}>
         <Link href="/" style={{ color: "#3b82f6", textDecoration: "none" }}>

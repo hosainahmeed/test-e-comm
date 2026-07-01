@@ -84,7 +84,7 @@ export default function SmallDeviceCategory() {
     return colors[index % colors.length];
   };
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto w-full">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 px-2">
         <h2 className="text-xl font-bold text-gray-800">Shop by Category</h2>
@@ -106,7 +106,7 @@ export default function SmallDeviceCategory() {
             // style={{ backgroundColor: randomColor(index) }}
             className="group relative overflow-hidden rounded-lg p-2 transition-shadow flex items-center justify-center flex-col hover:bg-gray-200"
           >
-            {/* Image Container */}
+            {/* Image max-w-7xl */}
             <div className="relative w-10 aspect-square overflow-hidden ">
               <Image
                 src={category.image}

@@ -1252,7 +1252,7 @@ export default function Header() {
             alignItems: "center",
             gap: "16px",
           }}
-          className="container h-fit py-4 px-2 md:h-[64px]"
+          className="max-w-7xl h-fit py-4 px-2 md:h-[64px]"
         >
           {/* Logo */}
           <Link

@@ -204,7 +204,7 @@ function CartScreen() {
     <div className="min-h-screen bg-white pb-24">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <Link
               href="/products"
@@ -224,7 +224,7 @@ function CartScreen() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-4">
+      <div className="max-w-7xl mx-auto px-4 py-4">
         {/* Free Shipping Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
           <div className="flex items-center gap-2">
@@ -504,7 +504,7 @@ function CartScreen() {
 
       {/* Fixed Bottom Checkout Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
-        <div className="container mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-2">
             <div>
               <p className="text-xs text-gray-500">Total Price</p>

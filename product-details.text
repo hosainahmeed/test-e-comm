@@ -60,7 +60,7 @@
 //   };
 
 //   return (
-//     <div className="container mx-auto">
+//     <div className="max-w-7xl mx-auto">
 //       <Link
 //         href="https://api.divandione.com/uploads/img/1781540256121-COCONUT_US%20(1).webps"
 //         style={{

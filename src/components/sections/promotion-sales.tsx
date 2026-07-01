@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import ProductCard from "../products/ProductCard";
 import { ArrowLeft, ChevronRight, Timer, Zap, Flame } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Sample flash sale products data
 const flashSaleProducts = [
@@ -285,50 +286,7 @@ const flashSaleProducts = [
   },
 ];
 
-function CountdownTimer({ endTime }: { endTime: string }) {
-  const [timeLeft, setTimeLeft] = useState({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const difference = new Date(endTime).getTime() - new Date().getTime();
-
-      if (difference > 0) {
-        setTimeLeft({
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      }
-    };
-
-    calculateTimeLeft();
-    const timer = setInterval(calculateTimeLeft, 1000);
-
-    return () => clearInterval(timer);
-  }, [endTime]);
-
-  return (
-    <div className="flex items-center gap-2 text-sm">
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
-        {String(timeLeft.hours).padStart(2, "0")}
-      </div>
-      <span className="text-red-600 font-bold">:</span>
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
-        {String(timeLeft.minutes).padStart(2, "0")}
-      </div>
-      <span className="text-red-600 font-bold">:</span>
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
-        {String(timeLeft.seconds).padStart(2, "0")}
-      </div>
-    </div>
-  );
-}
-
-function FlashSale() {
+function PromotionSale() {
   const [visibleProducts, setVisibleProducts] = useState(6);
   const [showAll, setShowAll] = useState(false);
 
@@ -343,23 +301,27 @@ function FlashSale() {
   return (
     <div className="bg-white">
       <div className="max-w-7xl mx-auto px-2 md:px-4">
+        <Image
+          src={
+            "https://template.canva.com/EAGEp1Yeyz0/3/0/800w-ijMDgxRiXQg.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHXICHJUOG%2F20260630%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260630T192807Z&X-Amz-Expires=60058&X-Amz-Signature=8847c1080f2da0cf1538c7cf9281a92e833c8ece6cd2dc53774be97e023e7da8&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2001%20Jul%202026%2012%3A09%3A05%20GMT"
+          }
+          width={334}
+          height={34}
+          alt="promo banner"
+          className="w-full h-full object-cover"
+        />
         {/* Header Section */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <Flame className="w-6 h-6 md:w-7 md:h-7 text-red-600 animate-pulse" />
               <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-                Flash Sale
+                Summer Sale
               </h2>
             </div>
-            <div className="hidden sm:flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded-lg">
-              <Timer className="w-4 h-4" />
-              <span className="text-sm font-semibold">Ending Soon</span>
-            </div>
-            <CountdownTimer endTime="2024-12-31T23:59:59" />
           </div>
           <Link
-            href="/products?flash-sale=true"
+            href="/products?category=Hookah%20Flavors"
             className="text-primary hover:underline text-sm flex items-center font-medium"
           >
             View All
@@ -419,30 +381,9 @@ function FlashSale() {
             </button>
           </div>
         )}
-
-        {/* Flash Sale Banner */}
-        <div className="mt-8 bg-linear-to-r from-red-500 to-orange-500 rounded-2xl p-6 text-white shadow-xl">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Flame className="w-10 h-10 text-yellow-300" />
-              <div>
-                <h3 className="text-xl font-bold">Limited Time Offer!</h3>
-                <p className="text-orange-100 text-sm">
-                  Up to 70% off on selected items. Don&apos;t miss out!
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/products?flash-sale=true"
-              className="bg-black text-white px-6 py-3 rounded-full font-bold transition-all duration-300 transform cursor-pointer shadow-lg"
-            >
-              Shop All Deals
-            </Link>
-          </div>
-        </div>
       </div>
     </div>
   );
 }
 
-export default FlashSale;
+export default PromotionSale;

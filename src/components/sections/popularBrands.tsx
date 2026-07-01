@@ -8,7 +8,7 @@ import { BRAND_CATALOG } from "@/lib/brandCatalog";
 function PopularBrands() {
   return (
     <section className="bg-white">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header Section */}
         <div className="flex flex-row items-center justify-between mb-4">
           <div className="text-center sm:text-left">
@@ -36,7 +36,7 @@ function PopularBrands() {
               className="group relative"
             >
               <div className="bg-white transition-all duration-300 overflow-hidden border border-gray-200 rounded-xl md:rounded-3xl ">
-                {/* Brand Logo Container */}
+                {/* Brand Logo max-w-7xl */}
                 <div className="relative p-6 bg-linear-to-br from-gray-50 to-gray-100 transition-all duration-300">
                   {/* Verification Badge */}
                   {brand.verified && (

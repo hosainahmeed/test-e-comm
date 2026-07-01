@@ -24,7 +24,7 @@ export default function CategoriesPage({ categories }: CategoriesPageProps) {
   const sortedGroups = Object.keys(groupedCategories).sort();
 
   return (
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Categories Grid */}
       <section>
         <div className="grid grid-cols-4 md:grid-cols-10 gap-2">

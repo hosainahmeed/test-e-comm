@@ -4,7 +4,7 @@ import React from "react";
 
 function DownloadAds() {
   return (
-    <div className="lg:hidden bg-linear-to-r from-gray-900 to-gray-800 p-4">
+    <div className="md:hidden bg-linear-to-r from-gray-900 to-gray-800 p-4 w-full">
       <div className="flex flex-col items-start justify-between gap-2">
         <div className="flex-1">
           <h3 className="text-white font-semibold text-sm mb-1">

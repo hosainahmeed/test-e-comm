@@ -142,7 +142,7 @@ function RecentlyViewed() {
   if (loading) {
     return (
       <div className="py-8">
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-2 mb-6">
             <History className="w-5 h-5 text-gray-400 animate-pulse" />
             <div className="h-6 w-48 bg-gray-200 rounded animate-pulse"></div>
@@ -170,7 +170,7 @@ function RecentlyViewed() {
 
   return (
     <section className="bg-white px-4">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -258,7 +258,7 @@ function RecentlyViewed() {
                   href={`/product/${product.id}`}
                   className="block relative"
                 >
-                  <div className="w-full h-72 bg-white flex items-center justify-center">
+                  <div className="w-full h-52 bg-white flex items-center justify-center">
                     <Image
                       src={product.thumbnail}
                       alt={product.title}
