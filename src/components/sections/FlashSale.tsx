@@ -356,7 +356,7 @@ function FlashSale() {
               <Timer className="w-4 h-4" />
               <span className="text-sm font-semibold">Ending Soon</span>
             </div>
-            <CountdownTimer endTime="2024-12-31T23:59:59" />
+            <CountdownTimer endTime="2026-12-31T23:59:59" />
           </div>
           <Link
             href="/products?flash-sale=true"

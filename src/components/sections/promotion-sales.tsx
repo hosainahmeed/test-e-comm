@@ -5,6 +5,7 @@ import ProductCard from "../products/ProductCard";
 import { ArrowLeft, ChevronRight, Timer, Zap, Flame } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { IMAGE } from "@/constant/image.index";
 
 // Sample flash sale products data
 const flashSaleProducts = [
@@ -302,9 +303,7 @@ function PromotionSale() {
     <div className="bg-white">
       <div className="max-w-7xl mx-auto px-2 md:px-4">
         <Image
-          src={
-            "https://template.canva.com/EAGEp1Yeyz0/3/0/800w-ijMDgxRiXQg.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHXICHJUOG%2F20260630%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260630T192807Z&X-Amz-Expires=60058&X-Amz-Signature=8847c1080f2da0cf1538c7cf9281a92e833c8ece6cd2dc53774be97e023e7da8&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Wed%2C%2001%20Jul%202026%2012%3A09%3A05%20GMT"
-          }
+          src={IMAGE.summerBanner}
           width={334}
           height={34}
           alt="promo banner"

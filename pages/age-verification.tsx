@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ShieldCheck, CalendarDays } from "lucide-react";
 import Cookies from "js-cookie";
+import { IMAGE } from "@/constant/image.index";
+import Image from "next/image";
 
 export default function AgeVerification() {
   const router = useRouter();
@@ -39,10 +41,18 @@ export default function AgeVerification() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-black flex items-center justify-center px-5">
+    <div className="min-h-screen bg-linear-to-br from-zinc-950 via-zinc-900 to-black flex items-center justify-center px-5">
       <div className="w-full max-w-md rounded-3xl border border-zinc-800 bg-zinc-900/90 backdrop-blur-xl shadow-2xl p-8">
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10">
-          <ShieldCheck className="h-9 w-9 text-emerald-400" />
+          <Image
+            src={
+              "https://divandione.com/_next/static/media/brand.0etw48jrlgwbv.svg"
+            }
+            alt="banner"
+            width={100}
+            height={100}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         <h1 className="text-center text-3xl font-bold text-white">
@@ -67,7 +77,7 @@ export default function AgeVerification() {
               type="date"
               value={dob}
               onChange={(e) => setDob(e.target.value)}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-800 py-3 pl-11 pr-4 text-white outline-none transition focus:border-emerald-500"
+              className="w-full rounded-xl border border-zinc-700 bg-zinc-800 py-3 pl-11 pr-4 text-white outline-none transition focus:border-[#c2a772]"
             />
           </div>
         </div>
@@ -77,16 +87,16 @@ export default function AgeVerification() {
             type="checkbox"
             checked={agree}
             onChange={(e) => setAgree(e.target.checked)}
-            className="mt-1 accent-emerald-500"
+            className="mt-1 accent-[#c2a772]"
           />
 
           <span>
             I confirm that I am at least 21 years old and agree to the{" "}
-            <Link href="/privacy" className="text-emerald-400 hover:underline">
+            <Link href="/privacy" className="text-[#c2a772] underline!">
               Privacy Policy
             </Link>{" "}
             and{" "}
-            <Link href="/terms" className="text-emerald-400 hover:underline">
+            <Link href="/terms" className="text-[#c2a772] underline!">
               Terms of Service
             </Link>
             .
@@ -102,7 +112,7 @@ export default function AgeVerification() {
         <button
           disabled={loading || !dob || !agree}
           onClick={verify}
-          className="mt-7 w-full rounded-xl bg-emerald-500 py-3 font-semibold text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-7 w-full rounded-xl bg-[#c2a772] py-3 font-semibold text-white transition hover:bg-[#c2a772] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading ? "Verifying..." : "Enter Website"}
         </button>
