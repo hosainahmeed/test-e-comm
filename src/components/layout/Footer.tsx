@@ -7,13 +7,15 @@ const Footer: React.FC = () => {
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-wrap justify-between gap-y-12 lg:gap-x-8">
           <div className="w-full md:w-[45%] lg:w-[35%] flex flex-col items-start text-left">
-            <div className="w-full max-w-52 h-0.5 mt-8 bg-linear-to-r from-[#24212D] to-[#24212D]/0"></div>
             <p className="text-sm text-black/60 mt-6 max-w-[350px] leading-relaxed">
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima
-              perferendis suscipit veritatis, dolores aspernatur voluptatibus
-              asperiores, accusantium facilis vero sed laborum eum ratione
-              libero adipisci quisquam, quidem natus excepturi. Error, provident
-              unde!
+              We are manufacturers and distributors of hookah and all hookah
+              related products, tobacco and charcoal. Our products which we
+              source from all around the globe are the best in the industry. We
+              specialize in running both wholesale and retail networks and carry
+              all of the hottest brands next to our house branded items at the
+              best prices in the market. Customer satisfaction and keeping our
+              wholesale clients profitable and happy is our main goal in
+              business!
             </p>
           </div>
 
