@@ -303,7 +303,7 @@ function PromotionSale() {
     <div className="bg-white">
       <div className="max-w-7xl mx-auto px-2 md:px-4">
         <Image
-          src={IMAGE.summerBanner}
+          src={IMAGE.downloadBanner}
           width={334}
           height={34}
           alt="promo banner"

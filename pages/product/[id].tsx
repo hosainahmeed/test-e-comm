@@ -123,7 +123,7 @@ export default function ProductDetailsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-28 md:pb-0">
+    <div className="min-h-screen bg-white pb-28 md:pb-0">
       <main className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Breadcrumb */}
         <nav
