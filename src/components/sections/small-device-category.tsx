@@ -90,7 +90,7 @@ export default function SmallDeviceCategory() {
         <h2 className="text-xl font-bold text-gray-800">Shop by Category</h2>
         <Link
           href="/categories"
-          className="text-primary hover:underline text-sm flex items-center font-medium"
+          className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
         >
           View All
           <ChevronRight className="w-4 h-4" />
@@ -98,7 +98,7 @@ export default function SmallDeviceCategory() {
       </div>
 
       {/* Categories Grid */}
-      <div className="grid grid-cols-5 md:grid-cols-10 gap-3 bg-gray-100 p-2 rounded-md shadow">
+      <div className="grid grid-cols-5 md:grid-cols-10 gap-3 bg-gray-100 p-2 rounded-md border border-border">
         {CATEGORIES.map((category, index) => (
           <Link
             key={category._id}

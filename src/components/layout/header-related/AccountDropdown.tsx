@@ -169,7 +169,7 @@ export function AccountDropdown({
               Business?
             </div>
             <Link
-              href="/wholesale/login"
+              href="/login"
               onClick={onClose}
               style={{
                 fontSize: "13px",

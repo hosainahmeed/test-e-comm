@@ -25,6 +25,7 @@ import { ProductGallery } from "@/components/pdp/product-gallery";
 import { Countdown } from "@/components/pdp/countdown";
 import { StarRow } from "@/components/pdp/star-row";
 import { ProductRail } from "@/components/pdp/product-rail";
+import Link from "next/link";
 
 export default function ProductDetailsPage() {
   const data = productData;
@@ -64,6 +65,8 @@ export default function ProductDetailsPage() {
   const [wish, setWish] = useState(false);
   const [copied, setCopied] = useState(false);
   const [addedFlash, setAddedFlash] = useState(false);
+
+  const [fullscreen, setFullscreen] = useState(false);
 
   const selectedVariant: Variant | undefined = useMemo(
     () =>
@@ -130,17 +133,17 @@ export default function ProductDetailsPage() {
           aria-label="Breadcrumb"
           className="flex items-center gap-1.5 py-5 text-xs text-muted-foreground"
         >
-          <a href="#" className="hover:text-foreground">
+          <Link href="#" className="hover:text-foreground">
             Home
-          </a>
+          </Link>
           <ChevronRight className="h-3 w-3" />
-          <a href="#" className="hover:text-foreground">
+          <Link href="#" className="hover:text-foreground">
             {product.category.name}
-          </a>
+          </Link>
           <ChevronRight className="h-3 w-3" />
-          <a href="#" className="hover:text-foreground">
+          <Link href="#" className="hover:text-foreground">
             {product.subCategory.name}
-          </a>
+          </Link>
           <ChevronRight className="h-3 w-3" />
           <span className="truncate text-foreground">{product.title}</span>
         </nav>
@@ -148,8 +151,18 @@ export default function ProductDetailsPage() {
         {/* Hero: gallery + info */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
           {/* Gallery */}
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <ProductGallery images={activeGroup.images} title={product.title} />
+          <div
+            className={cn(
+              "lg:sticky lg:top-24 lg:self-start",
+              fullscreen ? "z-9999999999" : "",
+            )}
+          >
+            <ProductGallery
+              images={activeGroup.images}
+              title={product.title}
+              fullscreen={fullscreen}
+              setFullscreen={setFullscreen}
+            />
           </div>
 
           {/* Info */}
@@ -236,12 +249,12 @@ export default function ProductDetailsPage() {
                 <span className="font-medium text-foreground">
                   {reviewSummary.average.toFixed(1)}
                 </span>
-                <a
+                <Link
                   href="#reviews"
                   className="text-muted-foreground underline-offset-4 hover:underline"
                 >
                   ({reviewSummary.totalReviews} reviews)
-                </a>
+                </Link>
               </div>
               <span className="h-3 w-px bg-border" />
               <span className="text-muted-foreground">

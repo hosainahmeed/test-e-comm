@@ -1,17 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export function ProductGallery({
   images,
   title,
+  fullscreen,
+  setFullscreen,
 }: {
   images: string[];
   title: string;
+  fullscreen: boolean;
+  setFullscreen: (value: boolean) => void;
 }) {
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
-  const [fullscreen, setFullscreen] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Reset on image set change (e.g. color switch)
@@ -66,7 +70,7 @@ export function ProductGallery({
               className="group relative aspect-square w-full shrink-0 snap-center overflow-hidden"
               aria-label={`${title} image ${i + 1} of ${images.length}`}
             >
-              <img
+              <Image
                 src={src}
                 alt={`${title} — view ${i + 1}`}
                 loading={i === 0 ? "eager" : "lazy"}
@@ -161,7 +165,7 @@ export function ProductGallery({
 
       {/* Fullscreen */}
       {fullscreen && (
-        <div className="fixed inset-0 z-99999999! flex items-center justify-center bg-black! p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-99999999 flex items-center justify-center bg-black! p-4 animate-in fade-in">
           <button
             type="button"
             onClick={() => setFullscreen(false)}

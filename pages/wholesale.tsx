@@ -93,7 +93,7 @@ const WholesaleApplication: React.FC = () => {
                 name="companyName"
                 value={formData.companyName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  "
                 required
               />
             </div>
@@ -112,7 +112,7 @@ const WholesaleApplication: React.FC = () => {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  "
                 required
               />
             </div>
@@ -131,7 +131,7 @@ const WholesaleApplication: React.FC = () => {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  "
                 required
               />
             </div>
@@ -150,7 +150,7 @@ const WholesaleApplication: React.FC = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none  "
                 required
               />
             </div>
@@ -179,7 +179,7 @@ const WholesaleApplication: React.FC = () => {
                       phone: rawValue,
                     }));
                   }}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-r-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-r-md focus:outline-none  "
                   placeholder="(555) 555-5555"
                 />
               </div>
@@ -198,7 +198,7 @@ const WholesaleApplication: React.FC = () => {
                     value="Tobacco"
                     checked={formData.catalogInterest.includes("Tobacco")}
                     onChange={handleChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600  border-gray-300 rounded"
                   />
                   <span className="ml-2 text-sm text-gray-700">Tobacco</span>
                 </label>
@@ -211,7 +211,7 @@ const WholesaleApplication: React.FC = () => {
                       "Hookahs & Accessories",
                     )}
                     onChange={handleChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600  border-gray-300 rounded"
                   />
                   <span className="ml-2 text-sm text-gray-700">
                     Hookahs & Accessories
@@ -236,7 +236,7 @@ const WholesaleApplication: React.FC = () => {
                 />
                 <label
                   htmlFor="tobaccoLicense"
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-offset-2  cursor-pointer"
                 >
                   Add file
                 </label>
@@ -264,7 +264,7 @@ const WholesaleApplication: React.FC = () => {
                 />
                 <label
                   htmlFor="additionalDocs"
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer"
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-offset-2  cursor-pointer"
                 >
                   Add file
                 </label>
@@ -280,7 +280,7 @@ const WholesaleApplication: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-offset-2  transition-colors"
               >
                 Submit
               </button>

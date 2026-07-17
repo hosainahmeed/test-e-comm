@@ -321,7 +321,7 @@ function PromotionSale() {
           </div>
           <Link
             href="/products?category=Hookah%20Flavors"
-            className="text-primary hover:underline text-sm flex items-center font-medium"
+            className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm mt-3"
           >
             View All
             <ChevronRight className="w-4 h-4" />

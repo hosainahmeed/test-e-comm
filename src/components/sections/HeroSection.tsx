@@ -84,7 +84,7 @@ function HeroSection() {
       <div className="max-w-7xl mx-auto px-1">
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-2">
           {/* Main Banner Slider */}
-          <div className="w-full lg:w-3/4">
+          <div className="w-full lg:w-3/4 rounded-md overflow-hidden">
             <div
               className="relative w-full h-48 md:h-72 lg:h-96 xl:h-[500px] overflow-hidden shadow-lg group"
               onMouseEnter={() => setIsHovered(true)}
@@ -185,7 +185,7 @@ function HeroSection() {
           </div>
 
           {/* App Download Section - Desktop */}
-          <div className="hidden lg:flex lg:w-1/4 flex-col items-start justify-center bg-[#172030] p-4 shadow-lg">
+          <div className="rounded-md overflow-hidden hidden lg:flex lg:w-1/4 flex-col items-start justify-center bg-[#172030] p-4 shadow-lg">
             <Image
               src={IMAGE.banner}
               alt="banner"

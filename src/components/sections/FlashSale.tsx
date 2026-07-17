@@ -313,15 +313,15 @@ function CountdownTimer({ endTime }: { endTime: string }) {
 
   return (
     <div className="flex items-center gap-2 text-sm">
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
+      <div className="bg-red-600 text-white px-2 py-1 text-xs rounded font-bold">
         {String(timeLeft.hours).padStart(2, "0")}
       </div>
       <span className="text-red-600 font-bold">:</span>
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
+      <div className="bg-red-600 text-white px-2 py-1 text-xs rounded font-bold">
         {String(timeLeft.minutes).padStart(2, "0")}
       </div>
       <span className="text-red-600 font-bold">:</span>
-      <div className="bg-red-600 text-white px-2 py-1 rounded font-bold">
+      <div className="bg-red-600 text-white px-2 py-1 text-xs rounded font-bold">
         {String(timeLeft.seconds).padStart(2, "0")}
       </div>
     </div>
@@ -352,15 +352,15 @@ function FlashSale() {
                 Flash Sale
               </h2>
             </div>
-            <div className="hidden sm:flex items-center gap-2 bg-red-600 text-white px-3 py-1.5 rounded-lg">
+            <div className="hidden sm:flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-lg">
               <Timer className="w-4 h-4" />
-              <span className="text-sm font-semibold">Ending Soon</span>
+              <span className="text-xs font-semibold">Ending Soon</span>
             </div>
             <CountdownTimer endTime="2026-12-31T23:59:59" />
           </div>
           <Link
             href="/products?flash-sale=true"
-            className="text-primary hover:underline text-sm flex items-center font-medium"
+            className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
           >
             View All
             <ChevronRight className="w-4 h-4" />

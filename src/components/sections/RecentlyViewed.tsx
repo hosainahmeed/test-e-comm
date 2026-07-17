@@ -187,14 +187,13 @@ function RecentlyViewed() {
           <div className="flex items-center gap-3">
             <button
               onClick={handleClearAll}
-              className="text-sm text-gray-500 flex items-center gap-1"
+              className="text-sm text-gray-500 flex items-center gap-1 cursor-pointer"
             >
-              <Trash2 className="w-4 h-4" />
-              <span className="hidden sm:inline">Clear All</span>
+              <Trash2 className="w-4 h-4 text-red-500" />
             </button>
             <Link
               href="/recently-viewed"
-              className="text-sm text-blue-600 font-medium flex items-center gap-1"
+              className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
             >
               View All
               <ChevronRight className="w-4 h-4" />

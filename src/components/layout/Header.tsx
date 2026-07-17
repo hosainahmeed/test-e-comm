@@ -332,13 +332,13 @@ export default function Header() {
                 />
               </button>
             ))}
-            {/* <Link
-              href="/contact"
+            <Link
+              href="/track"
               className="header-nav-link"
               style={{ padding: "6px 10px" }}
             >
-              Contact
-            </Link> */}
+              Track Item
+            </Link>
           </div>
 
           {/* Spacer on mobile */}
