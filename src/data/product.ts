@@ -172,8 +172,8 @@ export const productData: ProductData = {
         color: "#111111",
         images: [
           "https://api.divandione.com/uploads/img/1781470929990-9060-3415_1.webp",
-          "https://api.divandione.com/uploads/img/1781470929990-9060-3415_1.webp",
-          "https://api.divandione.com/uploads/img/1781470929990-9060-3415_1.webp",
+          "https://api.divandione.com/uploads/img/1781470955909-9060-3414_1.webp",
+          "https://api.divandione.com/uploads/img/1781470977702-9060-3413_1.webp",
         ],
       },
       {
