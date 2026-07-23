@@ -32,7 +32,7 @@ export const PdpReviews: React.FC<PdpReviewsProps> = ({ reviewSummary }) => {
           </div>
           <StarRow value={reviewSummary.average} size={15} className="mt-1.5" />
           <p className="mt-2 text-xs text-gray-500">
-            Based on {reviewSummary.totalReviews.toLocaleString()} verified
+            Based on {reviewSummary.totalReviews.toLocaleString("en-US")} verified
             reviews
           </p>
           <div className="mt-4 space-y-1.5">
@@ -73,7 +73,7 @@ export const PdpReviews: React.FC<PdpReviewsProps> = ({ reviewSummary }) => {
                     {r.name}
                   </p>
                   <p className="text-[10px] text-gray-400">
-                    {new Date(r.date).toLocaleDateString(undefined, {
+                    {new Date(r.date).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
                       year: "numeric",

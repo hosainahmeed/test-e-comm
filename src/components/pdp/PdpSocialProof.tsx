@@ -26,16 +26,16 @@ export const PdpSocialProof: React.FC<PdpSocialProofProps> = ({
           href="#reviews"
           className="text-gray-500 underline-offset-4 hover:underline hover:text-gray-900"
         >
-          ({totalReviews} reviews)
+          ({totalReviews}) reviews
         </Link>
       </div>
       <span className="h-3 w-px bg-gray-200" />
       <span className="text-gray-500">
-        {soldCount.toLocaleString()}+ sold
+        {soldCount.toLocaleString("en-US")}+ sold
       </span>
       <span className="h-3 w-px bg-gray-200" />
       <span className="text-gray-500">
-        {wishlistCount.toLocaleString()} saved
+        {wishlistCount.toLocaleString("en-US")} saved
       </span>
     </div>
   );

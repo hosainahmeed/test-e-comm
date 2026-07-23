@@ -60,12 +60,12 @@ export function ProductCard({ p }: { p: RelatedProduct }) {
         </div>
         <div className="mt-1 flex items-baseline gap-2">
           <span className="text-sm font-semibold text-foreground">
-            ৳{p.price.toLocaleString()}
+            ৳{p.price.toLocaleString("en-US")}
           </span>
           {p.mrp && p.mrp > p.price && (
             <>
               <span className="text-xs text-muted-foreground line-through">
-                ৳{p.mrp.toLocaleString()}
+                ৳{p.mrp.toLocaleString("en-US")}
               </span>
               <span className="text-xs font-medium text-sale">
                 -{discount}%
@@ -89,7 +89,7 @@ export function ProductRail({
   return (
     <section className="mt-16">
       <div className="mb-6 flex items-end justify-between">
-        <h2 className="text-2xl tracking-tight text-foreground sm:text-3xl">
+        <h2 className="text-xl tracking-tight text-foreground sm:text-2xl">
           {title}
         </h2>
         <button className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline">

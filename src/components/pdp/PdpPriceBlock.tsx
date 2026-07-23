@@ -33,12 +33,12 @@ export const PdpPriceBlock: React.FC<PdpPriceBlockProps> = ({
     <div className="mt-5 rounded-xl border border-[#F0EDE8] bg-white p-4 shadow-xs sm:p-5">
       <div className="flex flex-wrap items-baseline gap-2.5">
         <span className="font-display text-3xl font-bold text-gray-900 sm:text-4xl">
-          ৳{sellingPrice.toLocaleString()}
+          ৳{sellingPrice.toLocaleString("en-US")}
         </span>
         {mrp > sellingPrice && (
           <>
             <span className="text-sm text-gray-400 line-through">
-              ৳{mrp.toLocaleString()}
+              ৳{mrp.toLocaleString("en-US")}
             </span>
             <span className="rounded-full bg-[#A937E2]/10 px-2.5 py-0.5 text-xs font-bold text-[#A937E2]">
               Save {discount}%

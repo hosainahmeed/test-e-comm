@@ -50,7 +50,7 @@ export const PdpHeaderInfo: React.FC<PdpHeaderInfoProps> = ({
       )}
 
       {/* Title block */}
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start justify-between gap-3 flex-col md:flex-row">
         <div className="min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-gray-500">
             {brandName} · {subCategoryName}

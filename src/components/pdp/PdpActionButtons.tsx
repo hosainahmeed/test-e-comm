@@ -19,7 +19,7 @@ export const PdpActionButtons: React.FC<PdpActionButtonsProps> = ({
   return (
     <>
       {/* Desktop Main Purchase Actions */}
-      <div className="mt-6 grid grid-cols-2 gap-2.5">
+      <div className="mt-6 grid md:grid-cols-2 gap-2.5 grid-cols-1">
         <button
           type="button"
           onClick={onAddToCart}
@@ -27,11 +27,11 @@ export const PdpActionButtons: React.FC<PdpActionButtonsProps> = ({
           className={styles.primaryBtn}
         >
           {addedFlash ? (
-            <span className="inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center justify-center gap-2 text-sm">
               <Check className="h-4 w-4" /> Added to bag
             </span>
           ) : (
-            <span className="inline-flex items-center justify-center gap-2">
+            <span className="inline-flex items-center justify-center gap-2 text-sm">
               <ShoppingBag className="h-4 w-4" /> Add to bag
             </span>
           )}
@@ -53,7 +53,7 @@ export const PdpActionButtons: React.FC<PdpActionButtonsProps> = ({
               Total Price
             </span>
             <span className="text-base font-bold text-gray-900">
-              ৳{sellingPrice.toLocaleString()}
+              ৳{sellingPrice.toLocaleString("en-US")}
             </span>
           </div>
           <button
