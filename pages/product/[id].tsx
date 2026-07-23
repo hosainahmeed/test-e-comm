@@ -440,7 +440,7 @@ export default function ProductDetailsPage() {
                 <div className="mb-2.5 text-sm text-muted-foreground">
                   Quantity
                 </div>
-                <div className="inline-flex items-center rounded-xl border border-border bg-surface">
+                <div className="inline-flex items-center rounded-xl border border-border bg-surface overflow-hidden">
                   <button
                     type="button"
                     onClick={() => setQty((q) => Math.max(1, q - 1))}
