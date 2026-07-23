@@ -1,126 +1,148 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-// Mock data - replace with actual API data later
-const CATEGORIES = [
+export interface CategoryItemData {
+  id: string | number;
+  name: string;
+  image: string;
+  slug: string;
+  productsCount: number;
+}
+
+export const CATEGORIES: CategoryItemData[] = [
   {
-    _id: 1,
+    id: "cat-1",
     name: "Hookahs",
     image: "https://cdn-icons-png.flaticon.com/512/1704/1704307.png",
     slug: "hookahs",
     productsCount: 24,
   },
   {
-    _id: 2,
+    id: "cat-2",
     name: "Shisha",
     image: "https://cdn-icons-png.flaticon.com/512/16163/16163006.png",
     slug: "shisha",
     productsCount: 18,
   },
   {
-    _id: 3,
+    id: "cat-3",
     name: "Accessories",
     image: "https://cdn-icons-png.flaticon.com/512/17606/17606199.png",
     slug: "accessories",
     productsCount: 32,
   },
   {
-    _id: 4,
+    id: "cat-4",
     name: "Parts",
     image: "https://cdn-icons-png.flaticon.com/512/4879/4879886.png",
     slug: "parts",
     productsCount: 12,
   },
   {
-    _id: 5,
+    id: "cat-5",
     name: "Gifts & More",
     image: "https://cdn-icons-png.flaticon.com/512/9592/9592247.png",
     slug: "gifts-more",
     productsCount: 8,
   },
   {
-    _id: 123,
-    name: "Hookahs",
+    id: "cat-6",
+    name: "Charcoal",
     image: "https://cdn-icons-png.flaticon.com/512/1704/1704307.png",
-    slug: "hookahs",
-    productsCount: 24,
+    slug: "charcoal",
+    productsCount: 15,
   },
   {
-    _id: 1232,
-    name: "Shisha",
+    id: "cat-7",
+    name: "Bowls",
     image: "https://cdn-icons-png.flaticon.com/512/16163/16163006.png",
-    slug: "shisha",
-    productsCount: 18,
+    slug: "bowls",
+    productsCount: 20,
   },
   {
-    _id: 123333,
-    name: "Accessories",
+    id: "cat-8",
+    name: "Hoses",
     image: "https://cdn-icons-png.flaticon.com/512/17606/17606199.png",
-    slug: "accessories",
-    productsCount: 32,
+    slug: "hoses",
+    productsCount: 14,
   },
   {
-    _id: 123,
-    name: "Parts",
+    id: "cat-9",
+    name: "Vapes",
     image: "https://cdn-icons-png.flaticon.com/512/4879/4879886.png",
-    slug: "parts",
-    productsCount: 12,
+    slug: "vapes",
+    productsCount: 28,
   },
   {
-    _id: 1231235,
-    name: "Gifts & More",
+    id: "cat-10",
+    name: "Clearance",
     image: "https://cdn-icons-png.flaticon.com/512/9592/9592247.png",
-    slug: "gifts-more",
-    productsCount: 8,
+    slug: "clearance",
+    productsCount: 10,
   },
 ];
 
-export default function SmallDeviceCategory() {
-  const randomColor = (index: number) => {
-    const colors = ["#BA405A", "#9EA6AC", "#003988", "#CE5F01", "#9DB798"];
-    return colors[index % colors.length];
-  };
+interface CategoryCardProps {
+  category: CategoryItemData;
+}
+
+const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   return (
-    <div className="max-w-7xl mx-auto w-full">
-      {/* Section Header */}
-      <div className="flex items-center justify-between mb-4 px-2">
-        <h2 className="text-xl font-bold text-gray-800">Shop by Category</h2>
+    <Link
+      href={`/categories/${category.slug}`}
+      className="group flex w-[78px] shrink-0 flex-col items-center justify-center rounded-xl border border-[#F0EDE8] bg-white p-2.5 text-center transition-colors duration-150 hover:border-gray-300 hover:bg-[#FAF8F5] sm:w-auto"
+    >
+      {/* Minimal Icon Container */}
+      <div className="relative mb-1.5 grid h-11 w-11 place-items-center rounded-full bg-[#F6F4F0] sm:h-12 sm:w-12">
+        <div className="relative h-6 w-6 sm:h-7 sm:w-7">
+          <Image
+            src={category.image}
+            alt={category.name}
+            fill
+            sizes="28px"
+            className="object-contain opacity-90 transition-opacity group-hover:opacity-100"
+          />
+        </div>
+      </div>
+
+      {/* Category Name & Product Count */}
+      <span className="line-clamp-1 w-full text-center text-[11px] font-medium text-gray-800 transition-colors group-hover:text-black sm:text-xs">
+        {category.name}
+      </span>
+      <span className="text-[10px] text-gray-400">
+        {category.productsCount} items
+      </span>
+    </Link>
+  );
+};
+
+export default function SmallDeviceCategory() {
+  return (
+    <section className="mx-auto w-full max-w-7xl px-3 py-3">
+      {/* Minimal Header */}
+      <div className="mb-3 flex items-center justify-between px-0.5">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 truncate">
+          Shop by Category
+        </h2>
         <Link
           href="/categories"
-          className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
+          className="inline-flex items-center gap-0.5 text-xs font-medium text-gray-500 hover:text-black transition-colors"
         >
           View All
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="h-3.5 w-3.5" />
         </Link>
       </div>
 
-      {/* Categories Grid */}
-      <div className="grid grid-cols-5 md:grid-cols-10 gap-3 bg-gray-100 p-2 rounded-md border border-border">
-        {CATEGORIES.map((category, index) => (
-          <Link
-            key={category._id}
-            href={`/categories/${category.slug}`}
-            // style={{ backgroundColor: randomColor(index) }}
-            className="group relative overflow-hidden rounded-lg p-2 transition-shadow flex items-center justify-center flex-col hover:bg-gray-200"
-          >
-            {/* Image max-w-7xl */}
-            <div className="relative w-10 aspect-square overflow-hidden ">
-              <Image
-                src={category.image}
-                alt={category.name}
-                fill
-                className="object-contain"
-              />
-            </div>
-            <h1 className="text-center text-[8px] text-black font-semibold line-clamp-1">
-              {category.name}
-            </h1>
-          </Link>
+      {/* Responsive layout: Mobile swipe scroll (<640px), 5-col on tablet (640px+), 10-col on desktop (1024px+) */}
+      <div className="no-scrollbar -mx-3 flex gap-2.5 overflow-x-auto px-3 pb-1 sm:mx-0 sm:grid sm:grid-cols-5 sm:gap-3 sm:overflow-visible sm:px-0 md:grid-cols-10">
+        {CATEGORIES.map((cat) => (
+          <CategoryCard key={cat.id} category={cat} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

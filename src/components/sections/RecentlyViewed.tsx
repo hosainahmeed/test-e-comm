@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import ProductCard from "../products/ProductCard";
 import {
   Clock,
   Eye,
@@ -169,121 +170,38 @@ function RecentlyViewed() {
   }
 
   return (
-    <section className="bg-white px-4">
+    <section className="bg-white">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-                Recently Viewed
-              </h2>
-            </div>
+        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2">
+          <div className="min-w-0">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 truncate">
+              Recently Viewed
+            </h2>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               onClick={handleClearAll}
-              className="text-sm text-gray-500 flex items-center gap-1 cursor-pointer"
+              className="text-xs sm:text-sm text-gray-500 flex items-center gap-1 cursor-pointer"
             >
-              <Trash2 className="w-4 h-4 text-red-500" />
+              <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500" />
             </button>
             <Link
               href="/recently-viewed"
-              className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
+              className="text-primary hover:underline text-xs sm:text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm shrink-0"
             >
               View All
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </Link>
           </div>
         </div>
 
-        {/* Horizontal Scroll on Mobile, Grid on Desktop */}
-        <div className="relative">
-          {/* Mobile: Horizontal Scroll */}
-          <div className="flex md:hidden gap-3 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory">
-            {recentlyViewed.slice(0, 6).map((product) => (
-              <div key={product.id} className="shrink-0 w-40 snap-start">
-                <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-                  {/* Product Image - Fixed Overlay Issue */}
-                  <Link
-                    href={`/product/${product.id}`}
-                    className="block relative"
-                  >
-                    <div className="w-full h-40 bg-white flex items-center justify-center">
-                      <Image
-                        src={product.thumbnail}
-                        alt={product.title}
-                        width={160}
-                        height={128}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "/placeholder-product.png";
-                        }}
-                      />
-                    </div>
-
-                    {/* Badges - Only on image, not overlapping info */}
-                    {product.discountPercentage > 0 && (
-                      <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-1.5 py-0.5 rounded">
-                        -{product.discountPercentage}%
-                      </div>
-                    )}
-
-                    {product.stock <= 5 && (
-                      <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-1.5 py-0.5 rounded">
-                        Low Stock
-                      </div>
-                    )}
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: Grid */}
-          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {recentlyViewed.slice(0, 6).map((product) => (
-              <div
-                key={product.id}
-                className="bg-white border border-gray-200 rounded-3xl overflow-hidden"
-              >
-                {/* Product Image - Fixed Overlay Issue */}
-                <Link
-                  href={`/product/${product.id}`}
-                  className="block relative"
-                >
-                  <div className="w-full h-52 bg-white flex items-center justify-center">
-                    <Image
-                      src={product.thumbnail}
-                      alt={product.title}
-                      width={200}
-                      height={260}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = "/placeholder-product.png";
-                      }}
-                    />
-
-                    {/* Badges - Only on image, not overlapping info */}
-                    {product.discountPercentage > 0 && (
-                      <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
-                        -{product.discountPercentage}%
-                      </div>
-                    )}
-
-                    {product.stock <= 5 && (
-                      <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded">
-                        Only {product.stock} left
-                      </div>
-                    )}
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
+        {/* Standard Products Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+          {recentlyViewed.slice(0, 6).map((product) => (
+            <ProductCard key={product.id} product={product as any} />
+          ))}
         </div>
 
         {/* Empty State After Clearing */}

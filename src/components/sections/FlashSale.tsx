@@ -331,6 +331,14 @@ function CountdownTimer({ endTime }: { endTime: string }) {
 function FlashSale() {
   const [visibleProducts, setVisibleProducts] = useState(6);
   const [showAll, setShowAll] = useState(false);
+  const [activeToggle, setActiveToggle] = useState<"timer" | "button">("timer");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveToggle((prev) => (prev === "timer" ? "button" : "timer"));
+    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
 
   const displayedProducts = showAll
     ? flashSaleProducts
@@ -344,45 +352,88 @@ function FlashSale() {
     <div className="bg-white">
       <div className="max-w-7xl mx-auto px-2 md:px-4">
         {/* Header Section */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Flame className="w-6 h-6 md:w-7 md:h-7 text-red-600 animate-pulse" />
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-                Flash Sale
-              </h2>
-            </div>
-            <div className="hidden sm:flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-lg">
-              <Timer className="w-4 h-4" />
+        <div className="flex items-center justify-between mb-4 md:mb-6 gap-2">
+          {/* Left: Title & Icon */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Flame className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-red-600 animate-pulse" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
+              Flash Sale
+            </h2>
+          </div>
+
+          {/* Desktop View: Displays Ending Soon Badge, Countdown Timer, and View All button side-by-side */}
+          <div className="hidden sm:flex items-center gap-3">
+            <div className="flex items-center gap-1.5 bg-red-600 text-white px-2.5 py-1 rounded-lg shrink-0">
+              <Timer className="w-3.5 h-3.5" />
               <span className="text-xs font-semibold">Ending Soon</span>
             </div>
-            <CountdownTimer endTime="2026-12-31T23:59:59" />
+            <div className="shrink-0">
+              <CountdownTimer endTime="2026-12-31T23:59:59" />
+            </div>
+            <Link
+              href="/products?flash-sale=true"
+              className="text-primary hover:underline text-xs sm:text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm shrink-0"
+            >
+              View All
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </Link>
           </div>
-          <Link
-            href="/products?flash-sale=true"
-            className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
-          >
-            View All
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+
+          {/* Mobile View: Alternates smoothly between Countdown Timer and View All Button every 3.5s with slide-up fade animation */}
+          <div className="sm:hidden flex items-center justify-end h-8 min-w-[125px] overflow-hidden">
+            <style>{`
+              @keyframes slideUpFadeIn {
+                0% {
+                  opacity: 0;
+                  transform: translateY(8px);
+                }
+                100% {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+              .animate-slide-up-fade {
+                animation: slideUpFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+              }
+            `}</style>
+            {activeToggle === "timer" ? (
+              <div key="timer" className="animate-slide-up-fade shrink-0">
+                <CountdownTimer endTime="2026-12-31T23:59:59" />
+              </div>
+            ) : (
+              <div key="button" className="animate-slide-up-fade shrink-0">
+                <Link
+                  href="/products?flash-sale=true"
+                  className="text-primary hover:underline text-xs flex items-center font-medium border border-border px-2.5 py-1 hover:border-red-400 bg-gray-200 rounded-sm"
+                >
+                  View All
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Products Grid with Flash Sale Styling */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
           {displayedProducts.map((product) => (
             <div key={product.id} className="relative group">
-              {/* Flash Sale Badge */}
-              <div className="absolute top-2 left-2 z-10 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                <Zap className="w-3 h-3 fill-yellow-400 text-yellow-400" />-
-                {product.discountPercentage}%
-              </div>
-
-              {/* Stock Badge */}
-              {product.stock <= 5 && (
-                <div className="absolute top-2 right-2 z-10 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                  Only {product.stock} left!
+              {/* Card Badges Container */}
+              <div className="absolute top-1.5 left-1.5 right-1.5 z-10 flex items-center justify-between gap-1 pointer-events-none">
+                {/* Flash Sale Badge */}
+                <div className="bg-red-600 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full shadow-md flex items-center gap-0.5 shrink-0">
+                  <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-yellow-400 text-yellow-400" />
+                  -{product.discountPercentage}%
                 </div>
-              )}
+
+                {/* Stock Badge */}
+                {product.stock <= 5 && (
+                  <div className="bg-orange-500 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full shadow-md shrink-0">
+                    <span className="sm:hidden">{product.stock} left</span>
+                    <span className="hidden sm:inline">Only {product.stock} left!</span>
+                  </div>
+                )}
+              </div>
 
               {/* Product Card with Flash Sale Enhancements */}
               <div className="transform transition-all duration-300">

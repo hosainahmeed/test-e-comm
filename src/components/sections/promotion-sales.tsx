@@ -310,21 +310,19 @@ function PromotionSale() {
           className="w-full h-full object-cover"
         />
         {/* Header Section */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <Flame className="w-6 h-6 md:w-7 md:h-7 text-red-600 animate-pulse" />
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-                Summer Sale
-              </h2>
-            </div>
+        <div className="flex items-center justify-between mb-4 sm:mb-6 gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <Flame className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-red-600 animate-pulse shrink-0" />
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 truncate">
+              Summer Sale
+            </h2>
           </div>
           <Link
             href="/products?category=Hookah%20Flavors"
-            className="text-primary hover:underline text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm mt-3"
+            className="text-primary hover:underline text-xs sm:text-sm flex items-center font-medium border border-border px-2 py-1 hover:border-red-400 bg-gray-200 rounded-sm shrink-0"
           >
             View All
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </Link>
         </div>
 
@@ -332,18 +330,22 @@ function PromotionSale() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
           {displayedProducts.map((product) => (
             <div key={product.id} className="relative group">
-              {/* Flash Sale Badge */}
-              <div className="absolute top-2 left-2 z-10 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                <Zap className="w-3 h-3 fill-yellow-400 text-yellow-400" />-
-                {product.discountPercentage}%
-              </div>
-
-              {/* Stock Badge */}
-              {product.stock <= 5 && (
-                <div className="absolute top-2 right-2 z-10 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                  Only {product.stock} left!
+              {/* Card Badges Container */}
+              <div className="absolute top-1.5 left-1.5 right-1.5 z-10 flex items-center justify-between gap-1 pointer-events-none">
+                {/* Flash Sale Badge */}
+                <div className="bg-red-600 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full shadow-md flex items-center gap-0.5 shrink-0">
+                  <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-yellow-400 text-yellow-400" />
+                  -{product.discountPercentage}%
                 </div>
-              )}
+
+                {/* Stock Badge */}
+                {product.stock <= 5 && (
+                  <div className="bg-orange-500 text-white text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full shadow-md shrink-0">
+                    <span className="sm:hidden">{product.stock} left</span>
+                    <span className="hidden sm:inline">Only {product.stock} left!</span>
+                  </div>
+                )}
+              </div>
 
               {/* Product Card with Flash Sale Enhancements */}
               <div className="transform transition-all duration-300">
