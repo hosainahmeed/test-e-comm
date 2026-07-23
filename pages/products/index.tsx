@@ -47,7 +47,7 @@ export default function ProductsPage({ initialData }: ProductsPageProps) {
         {/* Collapsible Slide-over Mobile Drawer Overlay */}
         {isMobileFiltersOpen && (
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden transition-opacity duration-300 flex justify-end"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] md:hidden transition-opacity duration-300 flex justify-end"
             onClick={() => setIsMobileFiltersOpen(false)}
           >
             {/* Drawer Container */}
