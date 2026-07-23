@@ -230,7 +230,7 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
                 <span
                   style={{
                     fontSize: "12px",
-                    color: "#C8A96E",
+                    color: "#A937E2",
                     fontWeight: 600,
                   }}
                 >

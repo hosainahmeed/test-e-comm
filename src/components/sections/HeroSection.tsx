@@ -86,7 +86,7 @@ function HeroSection() {
           {/* Main Banner Slider */}
           <div className="w-full lg:w-3/4 rounded-md overflow-hidden">
             <div
-              className="relative w-full h-48 md:h-72 lg:h-96 xl:h-[500px] overflow-hidden shadow-lg group"
+              className="relative w-full h-48 md:h-72 lg:h-96 xl:h-112.5 overflow-hidden shadow-lg group"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >

@@ -16,7 +16,7 @@ export function MegaMenu({
         left: 0,
         right: 0,
         backgroundColor: "#fff",
-        borderTop: "2px solid #C8A96E",
+        borderTop: "2px solid #A937E2",
         boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
         padding: "28px 0",
         zIndex: 900,
@@ -55,11 +55,11 @@ export function MegaMenu({
               alignItems: "center",
               gap: "4px",
               fontSize: "13px",
-              color: "#C8A96E",
+              color: "#A937E2",
               textDecoration: "none",
               fontWeight: 600,
               marginTop: "8px",
-              borderBottom: "1px solid #C8A96E",
+              borderBottom: "1px solid #A937E2",
               paddingBottom: "1px",
             }}
           >
@@ -131,7 +131,7 @@ export function MegaMenu({
               fontSize: "11px",
               fontWeight: 700,
               letterSpacing: "0.1em",
-              color: "#C8A96E",
+              color: "#A937E2",
               textTransform: "uppercase",
             }}
           >
@@ -157,7 +157,7 @@ export function MegaMenu({
               marginTop: "8px",
               fontSize: "12px",
               fontWeight: 600,
-              color: "#C8A96E",
+              color: "#A937E2",
               textDecoration: "none",
             }}
           >

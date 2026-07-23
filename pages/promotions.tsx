@@ -34,7 +34,7 @@ function Promotions() {
         {/* Footer Note */}
         <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400">
           Have questions?{" "}
-          <a href="#" className="text-[#C8A96E] hover:underline font-medium">
+          <a href="#" className="text-[#A937E2] hover:underline font-medium">
             Contact Support
           </a>
         </p>

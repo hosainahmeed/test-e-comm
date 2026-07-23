@@ -181,7 +181,7 @@ const TrackPage: React.FC = () => {
   };
 
   const getStatusDotColor = (status: string, isLatest: boolean): string => {
-    if (isLatest) return "bg-[#C8A96E] border-[#C8A96E]";
+    if (isLatest) return "bg-[#A937E2] border-[#A937E2]";
 
     switch (status.toLowerCase()) {
       case "delivered":
@@ -244,7 +244,7 @@ const TrackPage: React.FC = () => {
                     value={orderNumber}
                     onChange={(e) => setOrderNumber(e.target.value)}
                     placeholder="e.g., ORD-12345"
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-[#C8A96E] focus:border-[#C8A96E] outline-none transition text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-[#A937E2] focus:border-[#A937E2] outline-none transition text-sm sm:text-base"
                     disabled={loading}
                   />
                 </div>
@@ -283,7 +283,7 @@ const TrackPage: React.FC = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-[#C8A96E] focus:border-[#C8A96E] outline-none transition text-sm sm:text-base"
+                    className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-[#A937E2] focus:border-[#A937E2] outline-none transition text-sm sm:text-base"
                     disabled={loading}
                   />
                 </div>
@@ -296,7 +296,7 @@ const TrackPage: React.FC = () => {
               {error && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm flex items-start gap-2">
                   <svg
-                    className="w-5 h-5 flex-shrink-0 mt-0.5"
+                    className="w-5 h-5 shrink-0 mt-0.5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -317,7 +317,7 @@ const TrackPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full sm:flex-1 bg-[#C8A96E] text-white py-2.5 sm:py-3 px-6 rounded-lg sm:rounded-xl hover:bg-[#B89B5E] focus:outline-none focus:ring-2 focus:ring-[#C8A96E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-sm sm:text-base shadow-sm hover:shadow-md"
+                  className="w-full sm:flex-1 bg-[#A937E2] text-white py-2.5 sm:py-3 px-6 rounded-lg sm:rounded-xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A937E2] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-sm sm:text-base shadow-sm hover:shadow-md"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -367,7 +367,7 @@ const TrackPage: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="w-full sm:w-auto px-6 py-2.5 sm:py-3 border-2 border-[#C8A96E] text-[#C8A96E] rounded-lg sm:rounded-xl hover:bg-[#C8A96E] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#C8A96E] focus:ring-offset-2 transition-all duration-200 font-medium text-sm sm:text-base"
+                    className="w-full sm:w-auto px-6 py-2.5 sm:py-3 border-2 border-[#A937E2] text-[#A937E2] rounded-lg sm:rounded-xl hover:bg-[#A937E2] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#A937E2] focus:ring-offset-2 transition-all duration-200 font-medium text-sm sm:text-base"
                   >
                     Track Another Order
                   </button>
@@ -383,7 +383,7 @@ const TrackPage: React.FC = () => {
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 lg:p-8">
                 <div className="flex items-center gap-2 mb-4 sm:mb-6">
                   <svg
-                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#C8A96E]"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#A937E2]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -457,7 +457,7 @@ const TrackPage: React.FC = () => {
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 lg:p-8">
                 <div className="flex items-center gap-2 mb-4 sm:mb-6">
                   <svg
-                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#C8A96E]"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#A937E2]"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -485,14 +485,14 @@ const TrackPage: React.FC = () => {
                         <div
                           className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full border-2 transition-all duration-200 ${
                             index === 0
-                              ? "bg-[#C8A96E] border-[#C8A96E] ring-4 ring-[#C8A96E]/20"
-                              : "bg-white border-gray-300 group-hover:border-[#C8A96E]"
+                              ? "bg-[#A937E2] border-[#A937E2] ring-4 ring-[#A937E2]/20"
+                              : "bg-white border-gray-300 group-hover:border-[#A937E2]"
                           }`}
                         ></div>
                         {index < trackingData.events.length - 1 && (
                           <div
                             className={`w-0.5 h-full min-h-[2rem] mt-1.5 ${
-                              index === 0 ? "bg-[#C8A96E]" : "bg-gray-200"
+                              index === 0 ? "bg-[#A937E2]" : "bg-gray-200"
                             }`}
                           ></div>
                         )}

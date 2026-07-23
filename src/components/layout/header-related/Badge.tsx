@@ -6,7 +6,7 @@ export function Badge({ count }: { count: any }) {
         position: "absolute",
         top: "-5px",
         right: "-5px",
-        backgroundColor: "#C8A96E",
+        backgroundColor: "#A937E2",
         color: "#fff",
         borderRadius: "50%",
         width: "17px",

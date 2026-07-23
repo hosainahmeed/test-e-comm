@@ -87,7 +87,7 @@ export function AccountDropdown({
                   "transparent")
               }
             >
-              <span style={{ color: "#C8A96E" }}>{item.icon}</span> {item.label}
+              <span style={{ color: "#A937E2" }}>{item.icon}</span> {item.label}
             </Link>
           ))}
           <button
@@ -173,7 +173,7 @@ export function AccountDropdown({
               onClick={onClose}
               style={{
                 fontSize: "13px",
-                color: "#C8A96E",
+                color: "#A937E2",
                 textDecoration: "none",
                 fontWeight: 600,
               }}

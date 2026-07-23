@@ -34,11 +34,13 @@
   right: 0;
   z-index: 1000;
   background-color: #fff;
-  transition: box-shadow 0.2s, border-color 0.2s;
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s;
 }
 
 .headerContainerScrolled {
-  border-bottom: 1px solid #F0EDE8;
+  border-bottom: 1px solid #f0ede8;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
 }
 
@@ -61,7 +63,7 @@
 }
 
 .topBarLink {
-  color: #C8A96E;
+  color: #a937e2;
   text-decoration: none;
   font-weight: 700;
   font-size: 12px;
@@ -86,7 +88,7 @@
 }
 
 .logoAccent {
-  color: #C8A96E;
+  color: #a937e2;
 }
 
 .headerNavLink {
@@ -108,13 +110,13 @@
 }
 
 .headerNavLink::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
   right: 0;
   height: 2px;
-  background: #C8A96E;
+  background: #a937e2;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.2s ease;
@@ -147,13 +149,15 @@
   cursor: pointer;
   border-radius: 8px;
   color: #444;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .iconBtn:hover {
-  background: #F5F2EE;
+  background: #f5f2ee;
   color: #111;
 }
 
@@ -162,21 +166,23 @@
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  background: #C8A96E;
+  background: #a937e2;
   color: #fff;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
   letter-spacing: 0.01em;
-  transition: background 0.15s, transform 0.1s;
+  transition:
+    background 0.15s,
+    transform 0.1s;
   white-space: nowrap;
   flex-shrink: 0;
   margin-left: 6px;
 }
 
 .wholesaleBtn:hover {
-  background: #B8965C;
+  background: #b8965c;
   transform: translateY(-1px);
 }
 
@@ -185,8 +191,8 @@
   align-items: center;
   gap: 6px;
   padding: 7px 12px;
-  background: #F5F2EE;
-  border: 1px solid #EAE7E2;
+  background: #f5f2ee;
+  border: 1px solid #eae7e2;
   border-radius: 8px;
   font-size: 13px;
   color: #888;
@@ -197,13 +203,13 @@
 }
 
 .searchShortcut:hover {
-  background: #EDE9E3;
+  background: #ede9e3;
 }
 
 .shortcutKbd {
   font-size: 10px;
-  background: #E8E4DF;
-  border: 1px solid #D8D3CC;
+  background: #e8e4df;
+  border: 1px solid #d8d3cc;
   border-radius: 3px;
   padding: 1px 5px;
   font-family: monospace;

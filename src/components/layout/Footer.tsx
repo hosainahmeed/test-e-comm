@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
                 fontSize: "11px",
                 fontWeight: 700,
                 letterSpacing: "0.1em",
-                color: "#C8A96E",
+                color: "#A937E2",
                 textTransform: "uppercase",
               }}
             >
@@ -127,7 +127,7 @@ const Footer: React.FC = () => {
                 marginTop: "8px",
                 fontSize: "12px",
                 fontWeight: 600,
-                color: "#C8A96E",
+                color: "#A937E2",
                 textDecoration: "none",
               }}
             >

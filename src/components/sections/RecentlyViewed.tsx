@@ -179,9 +179,6 @@ function RecentlyViewed() {
                 Recently Viewed
               </h2>
             </div>
-            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-              {recentlyViewed.length} items
-            </span>
           </div>
 
           <div className="flex items-center gap-3">

@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React from "react";
 
 export function CountBadge({ count }: { count: number }) {
   if (count === 0) return null;
@@ -9,7 +8,7 @@ export function CountBadge({ count }: { count: number }) {
         position: "absolute",
         top: "-5px",
         right: "-5px",
-        backgroundColor: "#C8A96E",
+        backgroundColor: "#A937E2",
         color: "#fff",
         borderRadius: "50%",
         width: "17px",

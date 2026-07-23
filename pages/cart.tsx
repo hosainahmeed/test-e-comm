@@ -167,7 +167,7 @@ function CartScreen() {
                 window.location.reload();
               }
             }}
-            className="bg-[#B8965C] text-white px-6 py-2 rounded-lg"
+            className="bg-[#a937e2] text-white px-6 py-2 rounded-lg"
           >
             Try Again
           </button>
@@ -190,7 +190,7 @@ function CartScreen() {
           </p>
           <Link
             href="/products"
-            className="bg-[#B8965C] text-white! px-8 py-3 rounded-lg font-semibold flex items-center gap-2"
+            className="bg-[#a937e2] text-white! px-8 py-3 rounded-lg font-semibold flex items-center gap-2"
           >
             <Store className="w-5 h-5" />
             Continue Shopping
@@ -215,7 +215,7 @@ function CartScreen() {
             </Link>
             <h1 className="text-lg font-bold text-gray-900">Shopping Cart</h1>
             <div className="flex items-center gap-1">
-              <ShoppingCart className="w-5 h-5 text-[#B8965C]" />
+              <ShoppingCart className="w-5 h-5 text-[#a937e2]" />
               <span className="text-sm font-semibold text-gray-700">
                 {cart.totalProducts} items
               </span>
@@ -228,7 +228,7 @@ function CartScreen() {
         {/* Free Shipping Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
           <div className="flex items-center gap-2">
-            <Truck className="w-5 h-5 text-[#B8965C]" />
+            <Truck className="w-5 h-5 text-[#a937e2]" />
             <p className="text-sm text-blue-800">
               <span className="font-semibold">Free shipping</span> on orders
               over $50
@@ -353,7 +353,7 @@ function CartScreen() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold ${
                 promoApplied
                   ? "bg-green-500 text-white"
-                  : "bg-[#B8965C] text-white"
+                  : "bg-[#a937e2] text-white"
               }`}
             >
               {promoApplied ? "Applied ✓" : "Apply"}
@@ -450,15 +450,15 @@ function CartScreen() {
         <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
           <div className="grid grid-cols-3 gap-4 text-center">
             <div className="flex flex-col items-center gap-1">
-              <ShieldCheck className="w-6 h-6 text-[#B8965C]" />
+              <ShieldCheck className="w-6 h-6 text-[#a937e2]" />
               <span className="text-xs text-gray-600">Secure Payment</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <Truck className="w-6 h-6 text-[#B8965C]" />
+              <Truck className="w-6 h-6 text-[#a937e2]" />
               <span className="text-xs text-gray-600">Fast Delivery</span>
             </div>
             <div className="flex flex-col items-center gap-1">
-              <Package className="w-6 h-6 text-[#B8965C]" />
+              <Package className="w-6 h-6 text-[#a937e2]" />
               <span className="text-xs text-gray-600">Easy Returns</span>
             </div>
           </div>
@@ -512,7 +512,7 @@ function CartScreen() {
                 ${(calculateTotal() - (promoApplied ? 10 : 0)).toFixed(2)}
               </p>
             </div>
-            <button className="bg-[#B8965C] text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2">
+            <button className="bg-[#a937e2] text-white px-8 py-3 rounded-lg font-semibold flex items-center gap-2">
               <CreditCard className="w-5 h-5" />
               Checkout
             </button>
