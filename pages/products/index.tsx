@@ -9,8 +9,77 @@ import { fetchAllProducts, ProductsResponse } from "@/lib/productServerApi";
 import { X, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
+import { useEffect } from "react";
+import { useFilters } from "@/contexts/filter-context";
+import { useProductData } from "@/contexts/product-data-context";
+
 interface ProductsPageProps {
   initialData: ProductsResponse;
+}
+
+function MobileFilterDrawer({ onClose }: { onClose: () => void }) {
+  const { filteredProducts } = useProductData();
+  const { resetFilters, isFilterActive } = useFilters();
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] md:hidden transition-opacity duration-300 flex justify-end"
+      onClick={onClose}
+    >
+      {/* Drawer Container */}
+      <div
+        className="w-[88%] max-w-[360px] h-full bg-white dark:bg-zinc-900 shadow-2xl flex flex-col animate-in slide-in-from-right duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Sticky Drawer Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-base text-gray-900 dark:text-white">Filter Products</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-purple-100 dark:bg-[#a937e2]/20 text-[#a937e2] font-semibold">
+              {filteredProducts.length}
+            </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-xl bg-gray-50 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors cursor-pointer"
+            aria-label="Close filters"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Scrollable Body */}
+        <div className="flex-1 overflow-y-auto p-4 no-scrollbar">
+          <ProductFilters isMobileDrawer={true} />
+        </div>
+
+        {/* Sticky Drawer Footer */}
+        <div className="p-4 border-t border-gray-150 dark:border-zinc-800 bg-white dark:bg-zinc-900 shrink-0 flex items-center gap-2.5">
+          {isFilterActive && (
+            <button
+              onClick={resetFilters}
+              className="flex-1 py-3 px-3 rounded-2xl border border-gray-200 dark:border-zinc-800 text-xs font-bold text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors cursor-pointer text-center"
+            >
+              Reset
+            </button>
+          )}
+          <button
+            onClick={onClose}
+            className="flex-[2] py-3 px-4 rounded-2xl bg-[#a937e2] hover:bg-[#9328cd] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all active:scale-[0.98] cursor-pointer text-center"
+          >
+            Show {filteredProducts.length} Products
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function ProductsPage({ initialData }: ProductsPageProps) {
@@ -44,31 +113,9 @@ export default function ProductsPage({ initialData }: ProductsPageProps) {
           </div>
         </div>
 
-        {/* Collapsible Slide-over Mobile Drawer Overlay */}
+        {/* Mobile Filter Drawer Overlay */}
         {isMobileFiltersOpen && (
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] md:hidden transition-opacity duration-300 flex justify-end"
-            onClick={() => setIsMobileFiltersOpen(false)}
-          >
-            {/* Drawer Container */}
-            <div
-              className="w-[85%] max-w-[340px] h-full bg-white dark:bg-zinc-900 p-5 overflow-y-auto shadow-2xl flex flex-col gap-4 animate-in slide-in-from-right duration-200"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b border-gray-150 dark:border-zinc-800 pb-3">
-                <span className="font-bold text-gray-900 dark:text-white">Filters</span>
-                <button
-                  onClick={() => setIsMobileFiltersOpen(false)}
-                  className="p-1 rounded-xl bg-gray-50 dark:bg-zinc-800 text-gray-500 dark:text-zinc-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors cursor-pointer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto no-scrollbar pb-10">
-                <ProductFilters />
-              </div>
-            </div>
-          </div>
+          <MobileFilterDrawer onClose={() => setIsMobileFiltersOpen(false)} />
         )}
       </ProductDataProvider>
     </FilterProvider>

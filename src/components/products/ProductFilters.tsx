@@ -15,7 +15,11 @@ import {
   Sliders,
 } from "lucide-react";
 
-export default function ProductFilters() {
+interface ProductFiltersProps {
+  isMobileDrawer?: boolean;
+}
+
+export default function ProductFilters({ isMobileDrawer = false }: ProductFiltersProps) {
   const { filters, setFilter, toggleFilterItem, resetFilters, isFilterActive } =
     useFilters();
   const {
@@ -94,7 +98,13 @@ export default function ProductFilters() {
   ];
 
   return (
-    <div className="w-full bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-3xl p-5 md:p-6 shadow-sm sticky top-[90px]">
+    <div
+      className={
+        isMobileDrawer
+          ? "w-full bg-transparent"
+          : "w-full bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 rounded-3xl p-5 md:p-6 shadow-sm sticky top-[90px]"
+      }
+    >
       <div className="flex items-center justify-between pb-4 mb-4 border-b border-gray-100 dark:border-zinc-800">
         <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
           Filters
