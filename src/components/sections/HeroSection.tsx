@@ -5,9 +5,6 @@ import { useState, useEffect, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { IMAGE } from "@/constant/image.index";
 import Link from "next/link";
-import DownloadAds from "@/components/ads/download-ads";
-import CategoriesSection from "@/components/sections/CategoriesSection";
-import SmallDeviceCategory from "./small-device-category";
 
 function HeroSection() {
   const bannerData = [
