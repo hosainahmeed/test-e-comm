@@ -57,6 +57,10 @@ function HeroSection() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Touch Swipe State for Mobile Thumbs
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % bannerData.length);
   }, [bannerData.length]);
@@ -71,6 +75,28 @@ function HeroSection() {
     setCurrentSlide(index);
   };
 
+  // Touch Swipe Handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX || !touchEndX) return;
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 35; // Threshold in px
+
+    if (distance > minSwipeDistance) {
+      nextSlide();
+    } else if (distance < -minSwipeDistance) {
+      prevSlide();
+    }
+  };
+
   // Auto-play functionality
   useEffect(() => {
     if (!isPlaying || isHovered) return;
@@ -80,15 +106,18 @@ function HeroSection() {
   }, [isPlaying, isHovered, nextSlide]);
 
   return (
-    <section className="w-full">
+    <section className="w-full select-none">
       <div className="max-w-7xl mx-auto px-1">
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-2">
           {/* Main Banner Slider */}
           <div className="w-full lg:w-3/4 rounded-md overflow-hidden">
             <div
-              className="relative w-full h-48 md:h-72 lg:h-96 xl:h-112.5 overflow-hidden shadow-lg group"
+              className="relative w-full h-52 sm:h-64 md:h-72 lg:h-96 xl:h-112.5 overflow-hidden shadow-lg group touch-pan-y"
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
             >
               {/* Slides */}
               <div className="relative w-full h-full">
@@ -97,10 +126,10 @@ function HeroSection() {
                     key={banner._id}
                     className={`absolute inset-0 transition-all duration-700 ease-in-out ${
                       index === currentSlide
-                        ? "opacity-100 translate-x-0"
+                        ? "opacity-100 translate-x-0 pointer-events-auto"
                         : index < currentSlide
-                          ? "opacity-0 -translate-x-full"
-                          : "opacity-0 translate-x-full"
+                          ? "opacity-0 -translate-x-full pointer-events-none"
+                          : "opacity-0 translate-x-full pointer-events-none"
                     }`}
                   >
                     <Image
@@ -114,10 +143,10 @@ function HeroSection() {
                     />
 
                     {/* Overlay with gradient */}
-                    <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent" />
 
                     {/* Banner Content */}
-                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8 text-white">
+                    <div className="absolute bottom-6 sm:bottom-8 left-0 right-0 p-4 md:p-6 lg:p-8 text-white">
                       <h2 className="text-xl md:text-3xl lg:text-4xl font-bold mb-1 md:mb-2 drop-shadow-lg">
                         {banner.title}
                       </h2>
@@ -126,7 +155,7 @@ function HeroSection() {
                       </p>
                       <a
                         href={banner.link}
-                        className="inline-block bg-white text-gray-900! px-4 md:px-6 py-2 md:py-2.5 rounded-full text-sm md:text-base font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        className="inline-block bg-white text-gray-900! px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-base font-semibold hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                       >
                         {banner.cta}
                       </a>
@@ -135,27 +164,27 @@ function HeroSection() {
                 ))}
               </div>
 
-              {/* Navigation Arrows */}
+              {/* Navigation Arrows (Visible on mobile/touch, opacity hover on desktop) */}
               <button
                 onClick={prevSlide}
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform hover:scale-110"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-white/80 hover:bg-white active:scale-95 rounded-full flex items-center justify-center shadow-lg opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300 transform sm:hover:scale-110 cursor-pointer z-10"
                 aria-label="Previous slide"
               >
                 <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform hover:scale-110"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-10 md:h-10 bg-white/80 hover:bg-white active:scale-95 rounded-full flex items-center justify-center shadow-lg opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-300 transform sm:hover:scale-110 cursor-pointer z-10"
                 aria-label="Next slide"
               >
                 <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-800" />
               </button>
 
               {/* Controls Bar */}
-              <div className="absolute top-3 right-3 md:top-4 md:right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute top-3 right-3 md:top-4 md:right-4 flex items-center gap-2 opacity-80 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 z-10">
                 <button
                   onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-7 h-7 md:w-8 md:h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200"
+                  className="w-7 h-7 md:w-8 md:h-8 bg-white/80 hover:bg-white rounded-full flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer"
                   aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
                 >
                   {isPlaying ? (
@@ -166,19 +195,23 @@ function HeroSection() {
                 </button>
               </div>
 
-              {/* Dots Navigation */}
-              <div className="absolute bottom-16 hidden md:bottom-20 lg:bottom-24 left-1/2 -translate-x-1/2 md:flex items-center gap-1.5 md:gap-2">
+              {/* Dots Navigation (Visible on all devices, thumb-friendly tap targets) */}
+              <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 md:gap-2 z-10 bg-black/30 backdrop-blur-xs px-3 py-1 rounded-full">
                 {bannerData.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => goToSlide(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                      index === currentSlide
-                        ? "w-5 md:w-6 h-1.5 md:h-2 bg-white"
-                        : "w-1.5 md:w-2 h-1.5 md:h-2 bg-white/60 hover:bg-white/80"
-                    }`}
+                    className="p-1 cursor-pointer"
                     aria-label={`Go to slide ${index + 1}`}
-                  />
+                  >
+                    <div
+                      className={`transition-all duration-300 rounded-full ${
+                        index === currentSlide
+                          ? "w-5 md:w-6 h-1.5 md:h-2 bg-white"
+                          : "w-1.5 md:w-2 h-1.5 md:h-2 bg-white/50 hover:bg-white/80"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
