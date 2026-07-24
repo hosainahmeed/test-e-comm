@@ -182,7 +182,7 @@
 }
 
 .wholesaleBtn:hover {
-  background: #b8965c;
+  /* background: #b8965c; */
   transform: translateY(-1px);
 }
 
